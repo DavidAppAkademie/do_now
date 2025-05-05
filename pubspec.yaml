@@ -9,6 +9,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
 
 dev_dependencies:
   flutter_test:
@@ -19,3 +21,20 @@ flutter:
   uses-material-design: true
   assets:
     - assets/images/
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  # ios
+  image_path: "assets/images/donow_icon.png"
+  remove_alpha_ios: true
+  # android
+  adaptive_icon_foreground: "assets/images/donow_icon.png"
+  adaptive_icon_background: '#FFFFFF'
+  adaptive_icon_foreground_inset: 0
+
+flutter_native_splash:
+  color: '#FFFFFF'
+  image: "assets/images/donow_icon.png"
+  android: false
+  ios: true
