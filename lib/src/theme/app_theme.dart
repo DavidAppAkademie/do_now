@@ -8,20 +8,23 @@ abstract class AppTheme {
   // auf einer einzelnen Farbe automatisch generiert
   //
   // zum Fine-Tunen kann man alle Widgets-Styles mit copyWith anpassen
-  // (hier im Beispiel für den FilledButton)
+  // (hier im Beispiel für den floatingActionButton)
   static final lightTheme = ThemeData.from(
     textTheme: _lightTextTheme,
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.light,
       seedColor: Palette.myBlue,
     ),
-  ).copyWith();
+  ).copyWith(
+      floatingActionButtonTheme: FloatingActionButtonThemeData(
+    backgroundColor: Palette.elegantBlack,
+    foregroundColor: Palette.white,
+  ));
 
   // Erweiterte Variante: ColorScheme selbst definieren
   // hier wird das Farbschema (ColorScheme) manuell definiert
   //
   // zum Fine-Tunen kann man alle Widgets-Styles mit copyWith anpassen
-  // (hier im Beispiel für den FilledButton)
   static final darkTheme = ThemeData.from(
     colorScheme: ColorScheme.fromSeed(
       brightness: Brightness.dark,
@@ -63,7 +66,7 @@ abstract class AppTheme {
     headlineLarge: w400,
     headlineMedium: w400,
     headlineSmall: w400.copyWith(fontSize: 30),
-    titleLarge: w400,
+    titleLarge: w600,
     titleMedium: w500,
     titleSmall: w500,
     bodyLarge: w400,

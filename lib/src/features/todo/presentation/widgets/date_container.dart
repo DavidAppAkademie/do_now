@@ -1,3 +1,4 @@
+import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
 class DateContainer extends StatelessWidget {
@@ -19,15 +20,18 @@ class DateContainer extends StatelessWidget {
           ? BoxDecoration(
               borderRadius: BorderRadius.all(Radius.circular(8)),
               border: Border.all(
-                color: Colors.white,
+                color: Palette.white,
                 width: 1.6,
               ))
           : null,
       child: Center(
-          child: Text(
-        day,
-        style: TextStyle(color: Colors.white),
-      )),
+        child: Text(
+          day,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Palette.white,
+              ),
+        ),
+      ),
     );
   }
 }

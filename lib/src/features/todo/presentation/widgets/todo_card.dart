@@ -1,3 +1,4 @@
+import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
 class TodoCard extends StatelessWidget {
@@ -18,7 +19,6 @@ class TodoCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: Colors.grey[200],
       elevation: 0,
       child: Padding(
         padding: const EdgeInsets.all(4),
@@ -40,7 +40,7 @@ class TodoCard extends StatelessWidget {
                 padding: const EdgeInsets.all(8.0),
                 child: Icon(
                   icon,
-                  color: Colors.white,
+                  color: Palette.white,
                   size: 40,
                 ),
               ),
@@ -48,12 +48,8 @@ class TodoCard extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title,
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    )),
-                Text(subTitle),
+                Text(title, style: Theme.of(context).textTheme.titleLarge),
+                Text(subTitle, style: Theme.of(context).textTheme.bodyMedium),
               ],
             )
           ],

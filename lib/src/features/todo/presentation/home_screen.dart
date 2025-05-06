@@ -1,5 +1,6 @@
 import 'package:do_now/src/features/todo/presentation/widgets/date_container.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/todo_card.dart';
+import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -22,18 +23,14 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   Text(
                     "DoNow",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                          color: Palette.white,
+                        ),
                   ),
-                  Text(
-                    "Jun",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                    ),
-                  ),
+                  Text("Jun",
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: Palette.white,
+                          )),
                 ],
               ),
               Row(
@@ -47,7 +44,7 @@ class HomeScreen extends StatelessWidget {
                     onPressed: () {},
                     icon: Icon(
                       Icons.chevron_right,
-                      color: Colors.white,
+                      color: Palette.white,
                     ),
                   ),
                 ],
@@ -59,16 +56,14 @@ class HomeScreen extends StatelessWidget {
             ],
           ),
         ),
-        backgroundColor: Colors.blueAccent,
+        backgroundColor: Theme.of(context).colorScheme.primary,
         toolbarHeight: 300,
-        shadowColor: Colors.blueAccent,
+        shadowColor: Theme.of(context).colorScheme.primary,
         elevation: 16,
         shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(80))),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.black,
-        foregroundColor: Colors.white,
         onPressed: () {},
         child: Icon(Icons.add),
       ),
