@@ -1,3 +1,4 @@
+import 'package:do_now/src/features/todo/presentation/add_todo_screen.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/date_container.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/todo_card.dart';
 import 'package:do_now/src/theme/palette.dart';
@@ -64,7 +65,12 @@ class HomeScreen extends StatelessWidget {
             borderRadius: BorderRadius.vertical(bottom: Radius.circular(80))),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddTodoScreen()),
+          );
+        },
         child: Icon(Icons.add),
       ),
       body: Padding(
