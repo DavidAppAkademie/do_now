@@ -1,4 +1,4 @@
-import 'package:do_now/src/features/auth/presentation/login_screen.dart';
+import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +11,7 @@ class App extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: ThemeMode.light,
-      home: LoginScreen(),
+      home: SignUpScreen(),
     );
   }
 }
