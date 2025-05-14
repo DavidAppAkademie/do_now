@@ -33,14 +33,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 decoration: InputDecoration(
                   labelText: "Email",
                   hintText: "Email eingeben",
-                  border: OutlineInputBorder(),
                 ),
               ),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: "Name",
                   hintText: "Name eingeben",
-                  border: OutlineInputBorder(),
                 ),
               ),
               TextFormField(
@@ -56,7 +54,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   labelText: "Passwort",
                   hintText: "Passwort eingeben",
-                  border: OutlineInputBorder(),
                 ),
                 obscureText: _isObscured,
               ),
@@ -64,7 +61,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 decoration: InputDecoration(
                   labelText: "Passwort wiederholen",
                   hintText: "Passwort nochmal eingeben",
-                  border: OutlineInputBorder(),
                 ),
                 obscureText: _isObscured,
               ),

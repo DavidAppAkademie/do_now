@@ -1,4 +1,15 @@
-enum Priority { low, medium, high }
+import 'dart:ui';
+
+enum Priority {
+  low("niedrig", "low"),
+  medium("mittel", "middle"),
+  high("hoch", "high");
+
+  const Priority(this.german, this.english);
+
+  final String german;
+  final String english;
+}
 
 class Todo {
   // Attribute
@@ -7,6 +18,7 @@ class Todo {
   final String title;
   final String description;
   final Priority priority;
+  final Color color;
   bool isDone;
   final DateTime dueDate;
 
@@ -17,6 +29,7 @@ class Todo {
     required this.title,
     required this.description,
     required this.priority,
+    required this.color,
     required this.isDone,
     required this.dueDate,
   });

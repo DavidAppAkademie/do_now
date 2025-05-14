@@ -1,4 +1,6 @@
 import 'package:do_now/src/features/todo/domain/todo.dart';
+import 'package:do_now/src/features/todo/presentation/widgets/color_slider.dart';
+import 'package:do_now/src/features/todo/presentation/widgets/priority_slider.dart';
 import 'package:flutter/material.dart';
 
 class AddTodoScreen extends StatefulWidget {
@@ -9,47 +11,64 @@ class AddTodoScreen extends StatefulWidget {
 }
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
-  // state
-  double priorityValue = 1;
+  Color _selectedColor = Colors.red;
 
-  // methods
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('Neues Todo')),
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Column(
-            spacing: 16,
-            children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: "Titel",
-                  hintText: "Titel eingeben",
-                  border: OutlineInputBorder(),
+    return Theme(
+      data: Theme.of(context).copyWith(
+        colorScheme: ColorScheme.fromSeed(seedColor: _selectedColor),
+      ),
+      child: Scaffold(
+        appBar: AppBar(title: Text('Neues Todo')),
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              spacing: 16,
+              children: [
+                TextFormField(
+                  decoration: InputDecoration(
+                    labelText: "Titel",
+                    hintText: "Titel eingeben",
+                  ),
                 ),
-              ),
-              TextFormField(
-                maxLines: 5,
-                decoration: InputDecoration(
-                  labelText: "Beschreibung",
-                  hintText: "Beschreibung eingeben",
-                  border: OutlineInputBorder(),
+                TextFormField(
+                  maxLines: 5,
+                  decoration: InputDecoration(
+                    labelText: "Beschreibung",
+                    hintText: "Beschreibung eingeben",
+                  ),
                 ),
-              ),
-              Slider(
-                max: 2,
-                divisions: 2,
-                value: priorityValue,
-                onChanged: (newValue) {
-                  setState(() {
-                    priorityValue = newValue;
-                  });
-                },
-              ),
-              Text(Priority.values[priorityValue.toInt()].name),
-            ],
+                PrioritySlider(),
+                ColorSlider(
+                  onColorSelected: (color) {
+                    setState(() {
+                      _selectedColor = color;
+                    });
+                  },
+                ),
+                SizedBox(height: 16),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () {
+                      final Todo todo = Todo(
+                        id: "123",
+                        groupId: "111",
+                        title: "title",
+                        description: "description",
+                        priority: Priority.high,
+                        color: _selectedColor,
+                        isDone: false,
+                        dueDate: DateTime.now().add(Duration(days: 1)),
+                      );
+                    },
+                    child: Text("Todo erstellen"),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

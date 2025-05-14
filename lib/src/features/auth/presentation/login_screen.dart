@@ -33,7 +33,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   labelText: "Email",
                   hintText: "Email eingeben",
-                  border: OutlineInputBorder(),
                 ),
               ),
               TextFormField(
@@ -49,7 +48,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   labelText: "Passwort",
                   hintText: "Passwort eingeben",
-                  border: OutlineInputBorder(),
                 ),
                 obscureText: _isObscured,
               ),

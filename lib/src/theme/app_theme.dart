@@ -16,10 +16,14 @@ abstract class AppTheme {
       seedColor: Palette.myBlue,
     ),
   ).copyWith(
-      floatingActionButtonTheme: FloatingActionButtonThemeData(
-    backgroundColor: Palette.elegantBlack,
-    foregroundColor: Palette.white,
-  ));
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Palette.elegantBlack,
+      foregroundColor: Palette.white,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(),
+    ),
+  );
 
   // Erweiterte Variante: ColorScheme selbst definieren
   // hier wird das Farbschema (ColorScheme) manuell definiert

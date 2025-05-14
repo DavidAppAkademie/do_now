@@ -1,6 +1,7 @@
 import 'package:do_now/src/features/auth/domain/app_user.dart';
 import 'package:do_now/src/features/group/domain/group.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
+import 'package:flutter/material.dart';
 
 import 'database_repository.dart';
 
@@ -14,6 +15,7 @@ class MockDatabaseRepository implements DatabaseRepository {
       isDone: false,
       dueDate: DateTime.now().add(const Duration(days: 2)),
       priority: Priority.medium,
+      color: Colors.red,
     ),
     Todo(
       id: "2",
@@ -23,6 +25,7 @@ class MockDatabaseRepository implements DatabaseRepository {
       isDone: false,
       dueDate: DateTime.now().add(const Duration(days: 1)),
       priority: Priority.high,
+      color: Colors.green,
     ),
   ];
   final List<Group> _groupList = [
