@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'database_repository.dart';
 
 class MockDatabaseRepository implements DatabaseRepository {
+  // Simulierte Datenbanken
   final List<Todo> _todoList = [
     Todo(
       id: "1",

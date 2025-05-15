@@ -1,14 +1,17 @@
+import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/todo/presentation/add_todo_screen.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/date_container.dart';
-import 'package:do_now/src/features/todo/presentation/widgets/todo_card.dart';
 import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({
-    super.key,
-  });
+  // Attribute
+  final DatabaseRepository db;
 
+  // Konstruktor
+  const HomeScreen(this.db, {super.key});
+
+  // Methode(n)
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +71,7 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddTodoScreen()),
+            MaterialPageRoute(builder: (context) => AddTodoScreen(db)),
           );
         },
         child: Icon(Icons.add),
@@ -78,20 +81,7 @@ class HomeScreen extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             spacing: 16,
-            children: [
-              TodoCard(
-                title: "13:00-15:00",
-                subTitle: "UI Design Webinar",
-                icon: Icons.palette_outlined,
-                color: Colors.blue,
-              ),
-              TodoCard(
-                title: "16:00-17:00",
-                subTitle: "Snacks Time",
-                icon: Icons.lunch_dining,
-                color: Colors.pink,
-              ),
-            ],
+            children: [],
           ),
         ),
       ),

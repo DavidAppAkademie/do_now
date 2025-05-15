@@ -1,10 +1,14 @@
+import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:do_now/src/features/todo/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+  // Attribute
+  final DatabaseRepository db;
+
+  const LoginScreen(this.db, {super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -64,7 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: () {
                     Navigator.pushReplacement(
                       context,
-                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      MaterialPageRoute(
+                          builder: (context) => HomeScreen(widget.db)),
                     );
                   },
                   child: Padding(
@@ -103,7 +108,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     onPressed: () {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (context) => SignUpScreen()),
+                        MaterialPageRoute(
+                            builder: (context) => SignUpScreen(widget.db)),
                       );
                     },
                     child: Text("Registrieren"),

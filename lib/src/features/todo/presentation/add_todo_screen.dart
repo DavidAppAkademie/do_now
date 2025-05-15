@@ -1,11 +1,17 @@
+import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/color_slider.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/priority_slider.dart';
 import 'package:flutter/material.dart';
 
 class AddTodoScreen extends StatefulWidget {
-  const AddTodoScreen({super.key});
+  // Attribute
+  final DatabaseRepository db;
 
+  // Konstruktor
+  const AddTodoScreen(this.db, {super.key});
+
+  // Methoden
   @override
   State<AddTodoScreen> createState() => _AddTodoScreenState();
 }
