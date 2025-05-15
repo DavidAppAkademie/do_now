@@ -4,7 +4,7 @@ import 'package:do_now/src/data/mock_database_repository.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  DatabaseRepository db = MockDatabaseRepository();
+  final DatabaseRepository db = MockDatabaseRepository();
 
   runApp(App(db));
 }

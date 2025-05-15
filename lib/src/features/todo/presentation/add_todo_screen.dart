@@ -70,7 +70,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         dueDate: DateTime.now().add(Duration(days: 1)),
                       );
 
-                      widget.db.createTodo("111", todo);
+                      widget.db.createTodo(todo.groupId, todo);
                     },
                     child: Text("Todo erstellen"),
                   ),
