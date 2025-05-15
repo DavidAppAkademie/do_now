@@ -18,16 +18,6 @@ class MockDatabaseRepository implements DatabaseRepository {
       priority: Priority.medium,
       color: Colors.red,
     ),
-    Todo(
-      id: "2",
-      groupId: "111",
-      title: "Finish homework",
-      description: "Math and science assignments",
-      isDone: false,
-      dueDate: DateTime.now().add(const Duration(days: 1)),
-      priority: Priority.high,
-      color: Colors.green,
-    ),
   ];
   final List<Group> _groupList = [
     Group(

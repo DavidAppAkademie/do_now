@@ -1,6 +1,8 @@
 import 'package:do_now/src/data/database_repository.dart';
+import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/features/todo/presentation/add_todo_screen.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/date_container.dart';
+import 'package:do_now/src/features/todo/presentation/widgets/todo_card.dart';
 import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
@@ -14,6 +16,8 @@ class HomeScreen extends StatelessWidget {
   // Methode(n)
   @override
   Widget build(BuildContext context) {
+    List<Todo> myTodos = db.getTodos("111");
+
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Padding(
@@ -78,11 +82,17 @@ class HomeScreen extends StatelessWidget {
       ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
-        child: SingleChildScrollView(
-          child: Column(
-            spacing: 16,
-            children: [],
-          ),
+        child: ListView.builder(
+          itemCount: myTodos.length,
+          itemBuilder: (context, index) {
+            final Todo todo = myTodos[index];
+            return TodoCard(
+              title: todo.title,
+              subTitle: todo.description,
+              icon: Icons.percent,
+              color: todo.color,
+            );
+          },
         ),
       ),
     );

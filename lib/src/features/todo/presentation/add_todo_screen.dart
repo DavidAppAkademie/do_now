@@ -62,13 +62,15 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                       final Todo todo = Todo(
                         id: "123",
                         groupId: "111",
-                        title: "title",
-                        description: "description",
+                        title: "Beispiel Titel",
+                        description: "Lorem ipsum dolor",
                         priority: Priority.high,
                         color: _selectedColor,
                         isDone: false,
                         dueDate: DateTime.now().add(Duration(days: 1)),
                       );
+
+                      widget.db.createTodo("111", todo);
                     },
                     child: Text("Todo erstellen"),
                   ),
