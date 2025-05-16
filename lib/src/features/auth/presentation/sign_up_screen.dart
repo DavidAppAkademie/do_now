@@ -1,7 +1,7 @@
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/auth/presentation/login_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
-import 'package:do_now/src/features/todo/presentation/home_screen.dart';
+import 'package:do_now/src/features/group/presentation/group_choice_screen.dart';
 import 'package:flutter/material.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -77,7 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => HomeScreen(widget.db)),
+                          builder: (context) => GroupChoiceScreen(widget.db)),
                     );
                   },
                   child: Padding(

@@ -71,6 +71,8 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                       );
 
                       widget.db.createTodo(todo.groupId, todo);
+
+                      Navigator.pop(context);
                     },
                     child: Text("Todo erstellen"),
                   ),
@@ -83,3 +85,36 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     );
   }
 }
+
+/* 
+Firebase User:
+- ID
+- Email
+- Passwort
+- URL zum Profilbild (falls mit Google Signin)
+
+
+AppUser (Datenbank, also entweder Mock.., oder Firestore)
+
+- ID
+- Email
+- URL zum Profilbild (falls mit Google Signin)
+- Vorname
+- Nachname
+- Geburtsdatum
+- Adresse
+
+
+- Ablauf beim Registrieren
+  1. Firebase User wird erstellt
+  2. AppUser wird in Datenbank erstellt
+
+
+
+
+
+
+
+
+
+ */

@@ -23,6 +23,22 @@ class MockDatabaseRepository implements DatabaseRepository {
     Group(
       id: "111",
       name: "Family",
+      groupCode: 1234,
+      members: [
+        AppUser(
+          id: "1",
+          name: "David",
+          email: "david@web.de",
+          photoUrl:
+              "https://ca.slack-edge.com/T044YC3MSLF-U05GXAU2DH6-75f1f34f2c6f-48",
+        ),
+      ],
+      creatorId: "1",
+    ),
+    Group(
+      id: "112",
+      name: "Einkaufen",
+      groupCode: 8888,
       members: [
         AppUser(
           id: "1",
@@ -39,6 +55,13 @@ class MockDatabaseRepository implements DatabaseRepository {
     AppUser(
       id: "1",
       name: "David",
+      email: "david@web.de",
+      photoUrl:
+          "https://ca.slack-edge.com/T044YC3MSLF-U05GXAU2DH6-75f1f34f2c6f-48",
+    ),
+    AppUser(
+      id: "2",
+      name: "Hans",
       email: "david@web.de",
       photoUrl:
           "https://ca.slack-edge.com/T044YC3MSLF-U05GXAU2DH6-75f1f34f2c6f-48",
@@ -87,5 +110,17 @@ class MockDatabaseRepository implements DatabaseRepository {
   @override
   void uncheckTodo(String groupId, String todoId) {
     _todoList.firstWhere((todo) => todo.id == todoId).isDone = false;
+  }
+
+  @override
+  void createAppUser(AppUser appUser) {
+    _userList.add(appUser);
+  }
+
+  @override
+  AppUser getUser(String userId) {
+    // Kurzschreibweise
+    final AppUser appUser = _userList.firstWhere((user) => user.id == userId);
+    return appUser;
   }
 }

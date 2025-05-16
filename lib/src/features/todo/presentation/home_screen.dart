@@ -9,14 +9,15 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatelessWidget {
   // Attribute
   final DatabaseRepository db;
+  final String groupId;
 
   // Konstruktor
-  const HomeScreen(this.db, {super.key});
+  const HomeScreen(this.db, this.groupId, {super.key});
 
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    List<Todo> myTodos = db.getTodos("111");
+    List<Todo> myTodos = db.getTodos(groupId);
 
     return Scaffold(
       appBar: AppBar(

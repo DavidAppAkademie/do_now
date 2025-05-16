@@ -4,6 +4,7 @@ class Group {
   // Attribute
   final String id;
   final String name;
+  final int groupCode;
   final List<AppUser> members;
   final String creatorId;
 
@@ -11,6 +12,7 @@ class Group {
   Group({
     required this.id,
     required this.name,
+    required this.groupCode,
     required this.members,
     required this.creatorId,
   });
