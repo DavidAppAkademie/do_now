@@ -69,56 +69,66 @@ class MockDatabaseRepository implements DatabaseRepository {
   ];
 
   @override
-  void checkTodo(String groupId, String todoId) {
+  Future<void> checkTodo(String groupId, String todoId) async {
+    await Future.delayed(Duration(seconds: 5));
     _todoList.firstWhere((todo) => todo.id == todoId).isDone = true;
   }
 
   @override
-  void createGroup(String userId, Group group) {
+  Future<void> createGroup(String userId, Group group) async {
+    await Future.delayed(Duration(seconds: 5));
     _groupList.add(group);
   }
 
   @override
-  void createTodo(String groupId, Todo todo) {
+  Future<void> createTodo(String groupId, Todo todo) async {
+    await Future.delayed(Duration(seconds: 5));
     _todoList.add(todo);
   }
 
   @override
-  void deleteGroup(String userId, String groupId) {
+  Future<void> deleteGroup(String userId, String groupId) async {
+    await Future.delayed(Duration(seconds: 5));
     _groupList.removeWhere((group) => group.id == groupId);
   }
 
   @override
-  List<Group> getGroups(String userId) {
+  Future<List<Group>> getGroups(String userId) async {
+    await Future.delayed(Duration(seconds: 5));
     return _groupList
         .where((group) => group.members.map((m) => m.id).contains(userId))
         .toList();
   }
 
   @override
-  List<Todo> getTodos(String groupId) {
+  Future<List<Todo>> getTodos(String groupId) async {
+    await Future.delayed(Duration(seconds: 5));
     return _todoList.where((todo) => todo.groupId == groupId).toList();
   }
 
   @override
-  void joinGroup(String userId, String groupId) {
+  Future<void> joinGroup(String userId, String groupId) async {
+    await Future.delayed(Duration(seconds: 5));
     final group = _groupList.firstWhere((group) => group.id == groupId);
     final user = _userList.firstWhere((user) => user.id == userId);
     group.members.add(user);
   }
 
   @override
-  void uncheckTodo(String groupId, String todoId) {
+  Future<void> uncheckTodo(String groupId, String todoId) async {
+    await Future.delayed(Duration(seconds: 5));
     _todoList.firstWhere((todo) => todo.id == todoId).isDone = false;
   }
 
   @override
-  void createAppUser(AppUser appUser) {
+  Future<void> createAppUser(AppUser appUser) async {
+    await Future.delayed(Duration(seconds: 5));
     _userList.add(appUser);
   }
 
   @override
-  AppUser getUser(String userId) {
+  Future<AppUser> getUser(String userId) async {
+    await Future.delayed(Duration(seconds: 5));
     // Kurzschreibweise
     final AppUser appUser = _userList.firstWhere((user) => user.id == userId);
     return appUser;

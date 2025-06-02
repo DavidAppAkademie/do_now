@@ -6,7 +6,7 @@ import 'package:do_now/src/features/todo/presentation/widgets/todo_card.dart';
 import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
   final String groupId;
@@ -14,10 +14,24 @@ class HomeScreen extends StatelessWidget {
   // Konstruktor
   const HomeScreen(this.db, this.groupId, {super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  Future<List<Todo>>? _myTodos;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _myTodos = widget.db.getTodos(widget.groupId);
+    super.initState();
+  }
+
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    List<Todo> myTodos = db.getTodos(groupId);
+    //List<Todo> myTodos = widget.db.getTodos(widget.groupId);
 
     return Scaffold(
       appBar: AppBar(
@@ -76,25 +90,39 @@ class HomeScreen extends StatelessWidget {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddTodoScreen(db)),
+            MaterialPageRoute(builder: (context) => AddTodoScreen(widget.db)),
           );
         },
         child: Icon(Icons.add),
       ),
       body: Padding(
         padding: EdgeInsets.fromLTRB(16, 32, 16, 16),
-        child: ListView.builder(
-          itemCount: myTodos.length,
-          itemBuilder: (context, index) {
-            final Todo todo = myTodos[index];
-            return TodoCard(
-              title: todo.title,
-              subTitle: todo.description,
-              icon: Icons.percent,
-              color: todo.color,
-            );
-          },
-        ),
+        child: FutureBuilder(
+            future: _myTodos,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                if (snapshot.hasError) {
+                  return Text("Fehler: ${snapshot.error}");
+                } else if (snapshot.hasData) {
+                  List<Todo> myTodos = snapshot.data ?? [];
+                  return ListView.builder(
+                    itemCount: myTodos.length,
+                    itemBuilder: (context, index) {
+                      final Todo todo = myTodos[index];
+                      return TodoCard(
+                        title: todo.title,
+                        subTitle: todo.description,
+                        icon: Icons.percent,
+                        color: todo.color,
+                      );
+                    },
+                  );
+                }
+              } else if (snapshot.connectionState == ConnectionState.waiting) {
+                return CircularProgressIndicator();
+              }
+              return Container();
+            }),
       ),
     );
   }

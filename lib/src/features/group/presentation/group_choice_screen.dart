@@ -4,17 +4,31 @@ import 'package:do_now/src/features/group/presentation/group_choice_card.dart';
 import 'package:do_now/src/features/todo/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
 
-class GroupChoiceScreen extends StatelessWidget {
+class GroupChoiceScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
 
   // Konstruktor
   const GroupChoiceScreen(this.db, {super.key});
 
+  @override
+  State<GroupChoiceScreen> createState() => _GroupChoiceScreenState();
+}
+
+class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
+  Future<List<Group>>? _myGroup;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    _myGroup = widget.db.getGroups("1");
+    super.initState();
+  }
+
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    final List<Group> myGroups = db.getGroups("1");
+    //final List<Group> myGroups = widget.db.getGroups("1");
 
     return Scaffold(
       appBar: AppBar(
@@ -47,31 +61,51 @@ class GroupChoiceScreen extends StatelessWidget {
                           Text("Gruppe auswählen",
                               style: Theme.of(context).textTheme.titleMedium),
                           Expanded(
-                            child: ListView.builder(
-                              itemCount: myGroups.length,
-                              itemBuilder: (context, index) {
-                                final Group group = myGroups[index];
-                                return ListTile(
-                                  onTap: () {
-                                    Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              HomeScreen(db, group.id)),
-                                    );
-                                  },
-                                  title: Text(group.name),
-                                  subtitle: Text("Code: ${group.groupCode}"),
-                                  trailing: IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        Icons.delete,
-                                        color:
-                                            Theme.of(context).colorScheme.error,
-                                      )),
-                                );
-                              },
-                            ),
+                            child: FutureBuilder(
+                                future: _myGroup,
+                                builder: (context, snapshot) {
+                                  if (snapshot.connectionState ==
+                                      ConnectionState.done) {
+                                    if (snapshot.hasError) {
+                                      return Text("Fehler: ${snapshot.error}");
+                                    } else if (snapshot.hasData) {
+                                      List<Group> myGroups =
+                                          snapshot.data ?? [];
+                                      return ListView.builder(
+                                        itemCount: myGroups.length,
+                                        itemBuilder: (context, index) {
+                                          final Group group = myGroups[index];
+                                          return ListTile(
+                                            onTap: () {
+                                              Navigator.pushReplacement(
+                                                context,
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        HomeScreen(widget.db,
+                                                            group.id)),
+                                              );
+                                            },
+                                            title: Text(group.name),
+                                            subtitle: Text(
+                                                "Code: ${group.groupCode}"),
+                                            trailing: IconButton(
+                                                onPressed: () {},
+                                                icon: Icon(
+                                                  Icons.delete,
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .error,
+                                                )),
+                                          );
+                                        },
+                                      );
+                                    }
+                                  } else if (snapshot.connectionState ==
+                                      ConnectionState.waiting) {
+                                    return CircularProgressIndicator();
+                                  }
+                                  return Text("Keine Daten verfügbar");
+                                }),
                           )
                         ],
                       ),
