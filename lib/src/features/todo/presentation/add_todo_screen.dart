@@ -7,9 +7,10 @@ import 'package:flutter/material.dart';
 class AddTodoScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
+  final void Function() onTodoAdded;
 
   // Konstruktor
-  const AddTodoScreen(this.db, {super.key});
+  const AddTodoScreen(this.db, {super.key, required this.onTodoAdded});
 
   // Methoden
   @override
@@ -17,7 +18,12 @@ class AddTodoScreen extends StatefulWidget {
 }
 
 class _AddTodoScreenState extends State<AddTodoScreen> {
+  // State
   Color _selectedColor = Colors.red;
+  final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+  Priority _selectedPriority = Priority.medium;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -34,19 +40,25 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
               spacing: 16,
               children: [
                 TextFormField(
+                  controller: _titleController,
                   decoration: InputDecoration(
                     labelText: "Titel",
                     hintText: "Titel eingeben",
                   ),
                 ),
                 TextFormField(
+                  controller: _descriptionController,
                   maxLines: 5,
                   decoration: InputDecoration(
                     labelText: "Beschreibung",
                     hintText: "Beschreibung eingeben",
                   ),
                 ),
-                PrioritySlider(),
+                PrioritySlider(
+                  onPriorityChanged: (p) {
+                    _selectedPriority = p;
+                  },
+                ),
                 ColorSlider(
                   onColorSelected: (color) {
                     setState(() {
@@ -58,22 +70,30 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 SizedBox(
                   width: double.infinity,
                   child: FilledButton(
-                    onPressed: () {
-                      final Todo todo = Todo(
-                        id: "123",
-                        groupId: "111",
-                        title: "Beispiel Titel",
-                        description: "Lorem ipsum dolor",
-                        priority: Priority.high,
-                        color: _selectedColor,
-                        isDone: false,
-                        dueDate: DateTime.now().add(Duration(days: 1)),
-                      );
+                    onPressed: _isLoading
+                        ? null
+                        : () async {
+                            final Todo todo = Todo(
+                              id: "123",
+                              groupId: "111",
+                              title: _titleController.text,
+                              description: _descriptionController.text,
+                              priority: _selectedPriority,
+                              color: _selectedColor,
+                              isDone: false,
+                              dueDate: DateTime.now().add(Duration(days: 1)),
+                            );
 
-                      widget.db.createTodo(todo.groupId, todo);
+                            setState(() {
+                              _isLoading = true;
+                            });
+                            await widget.db.createTodo(todo.groupId, todo);
+                            widget.onTodoAdded();
 
-                      Navigator.pop(context);
-                    },
+                            if (context.mounted) {
+                              Navigator.pop(context);
+                            }
+                          },
                     child: Text("Todo erstellen"),
                   ),
                 ),
@@ -83,6 +103,13 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _titleController.dispose();
+    _descriptionController.dispose();
+    super.dispose();
   }
 }
 

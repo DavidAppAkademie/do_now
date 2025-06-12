@@ -2,7 +2,9 @@ import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:flutter/material.dart';
 
 class PrioritySlider extends StatefulWidget {
-  const PrioritySlider({super.key});
+  final void Function(Priority p) onPriorityChanged;
+
+  const PrioritySlider({super.key, required this.onPriorityChanged});
 
   @override
   State<PrioritySlider> createState() => _PrioritySliderState();
@@ -36,6 +38,7 @@ class _PrioritySliderState extends State<PrioritySlider> {
                   priorityValue = newValue;
                   p = Priority.values[priorityValue.toInt()];
                 });
+                widget.onPriorityChanged(p);
               },
             ),
             Text(p.german),

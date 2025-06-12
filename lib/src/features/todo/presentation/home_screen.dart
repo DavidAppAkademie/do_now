@@ -89,7 +89,16 @@ class _HomeScreenState extends State<HomeScreen> {
         onPressed: () {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => AddTodoScreen(widget.db)),
+            MaterialPageRoute(
+              builder: (context) => AddTodoScreen(
+                widget.db,
+                onTodoAdded: () {
+                  setState(() {
+                    _myTodos = widget.db.getTodos(widget.groupId);
+                  });
+                },
+              ),
+            ),
           );
         },
         child: Icon(Icons.add),
