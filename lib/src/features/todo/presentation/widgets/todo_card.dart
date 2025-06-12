@@ -45,12 +45,14 @@ class TodoCard extends StatelessWidget {
                 ),
               ),
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: Theme.of(context).textTheme.titleLarge),
-                Text(subTitle, style: Theme.of(context).textTheme.bodyMedium),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: Theme.of(context).textTheme.titleLarge),
+                  Text(subTitle, style: Theme.of(context).textTheme.bodyMedium),
+                ],
+              ),
             )
           ],
         ),

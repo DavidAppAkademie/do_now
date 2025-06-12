@@ -101,7 +101,8 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                     }
                                   } else if (snapshot.connectionState ==
                                       ConnectionState.waiting) {
-                                    return CircularProgressIndicator();
+                                    return Center(
+                                        child: CircularProgressIndicator());
                                   }
                                   return Text("Keine Daten verfügbar");
                                 }),
