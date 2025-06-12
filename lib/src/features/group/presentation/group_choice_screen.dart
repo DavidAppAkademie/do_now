@@ -20,9 +20,8 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
-    _myGroup = widget.db.getGroups("1");
     super.initState();
+    _myGroup = widget.db.getGroups("1");
   }
 
   // Methode(n)
