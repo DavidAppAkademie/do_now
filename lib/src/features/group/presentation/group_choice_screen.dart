@@ -85,8 +85,7 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                               );
                                             },
                                             title: Text(group.name),
-                                            subtitle: Text(
-                                                "Code: ${group.groupCode}"),
+                                            subtitle: Text("Code: ${group.id}"),
                                             trailing: IconButton(
                                                 onPressed: () {},
                                                 icon: Icon(

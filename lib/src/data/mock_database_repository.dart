@@ -23,7 +23,6 @@ class MockDatabaseRepository implements DatabaseRepository {
     Group(
       id: "111",
       name: "Family",
-      groupCode: 1234,
       members: [
         AppUser(
           id: "1",
@@ -38,7 +37,6 @@ class MockDatabaseRepository implements DatabaseRepository {
     Group(
       id: "112",
       name: "Einkaufen",
-      groupCode: 8888,
       members: [
         AppUser(
           id: "1",
