@@ -8,9 +8,15 @@ class AddTodoScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
   final void Function() onTodoAdded;
+  final String groupId;
 
   // Konstruktor
-  const AddTodoScreen(this.db, {super.key, required this.onTodoAdded});
+  const AddTodoScreen(
+    this.db, {
+    super.key,
+    required this.onTodoAdded,
+    required this.groupId,
+  });
 
   // Methoden
   @override
@@ -75,7 +81,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         : () async {
                             final Todo todo = Todo(
                               id: "123",
-                              groupId: "111",
+                              groupId: widget.groupId,
                               title: _titleController.text,
                               description: _descriptionController.text,
                               priority: _selectedPriority,

@@ -97,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     _myTodos = widget.db.getTodos(widget.groupId);
                   });
                 },
+                groupId: widget.groupId,
               ),
             ),
           );
