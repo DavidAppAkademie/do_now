@@ -76,7 +76,18 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                 hintText: "Code eingeben",
                 tipText: "",
                 buttonText: "Beitreten",
-                onPressed: (value) {},
+                onPressed: (groupCode) async {
+                  await widget.db.joinGroup("1", groupCode);
+                  if (context.mounted) {
+                    // zum Home Screen fuer diese beigetretene Gruppe
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(widget.db, groupCode),
+                      ),
+                    );
+                  }
+                },
               ),
               Expanded(
                 child: Card(
