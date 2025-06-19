@@ -1,4 +1,5 @@
 import 'package:do_now/src/data/database_repository.dart';
+import 'package:do_now/src/features/auth/domain/app_user.dart';
 import 'package:do_now/src/features/group/domain/group.dart';
 import 'package:do_now/src/features/group/presentation/group_choice_card.dart';
 import 'package:do_now/src/features/todo/presentation/home_screen.dart';
@@ -16,6 +17,7 @@ class GroupChoiceScreen extends StatefulWidget {
 }
 
 class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
+  // State
   Future<List<Group>>? _myGroup;
 
   @override
@@ -27,8 +29,6 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    //final List<Group> myGroups = widget.db.getGroups("1");
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Gruppe wählen"),
@@ -40,15 +40,44 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
             spacing: 16,
             children: [
               GroupChoiceCard(
-                  title: "Neue Gruppe",
-                  hintText: "Gruppenbezeichnung",
-                  tipText: "Erstelle z.B. Einkaufen oder Familie",
-                  buttonText: "Erstellen"),
+                title: "Neue Gruppe",
+                hintText: "Gruppenbezeichnung",
+                tipText: "Erstelle z.B. Einkaufen oder Familie",
+                buttonText: "Erstellen",
+                onPressed: (String value) async {
+                  // AppUser bekommen
+                  final AppUser user = await widget.db.getUser("1");
+                  // Gruppe erstellen
+                  final String groupId =
+                      DateTime.now().millisecondsSinceEpoch.toString();
+                  await widget.db.createGroup(
+                    "1",
+                    Group(
+                      id: groupId,
+                      name: value,
+                      members: [user],
+                      creatorId: "1",
+                    ),
+                  );
+
+                  if (context.mounted) {
+                    // zum Home Screen fuer diese erstellte Gruppe
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => HomeScreen(widget.db, groupId),
+                      ),
+                    );
+                  }
+                },
+              ),
               GroupChoiceCard(
-                  title: "Gruppe beitreten",
-                  hintText: "Code eingeben",
-                  tipText: "",
-                  buttonText: "Beitreten"),
+                title: "Gruppe beitreten",
+                hintText: "Code eingeben",
+                tipText: "",
+                buttonText: "Beitreten",
+                onPressed: (value) {},
+              ),
               Expanded(
                 child: Card(
                   child: Padding(

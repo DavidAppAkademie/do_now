@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 
-class GroupChoiceCard extends StatelessWidget {
+class GroupChoiceCard extends StatefulWidget {
+  // Attribute
   final String title;
   final String hintText;
   final String tipText;
   final String buttonText;
+  final void Function(String value) onPressed;
 
+  // Konstruktor
   const GroupChoiceCard({
     super.key,
     required this.title,
     required this.hintText,
     required this.tipText,
     required this.buttonText,
+    required this.onPressed,
   });
+
+  @override
+  State<GroupChoiceCard> createState() => _GroupChoiceCardState();
+}
+
+class _GroupChoiceCardState extends State<GroupChoiceCard> {
+  final _textController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -24,21 +35,25 @@ class GroupChoiceCard extends StatelessWidget {
             child: Column(
               spacing: 16,
               children: [
-                Text(title, style: Theme.of(context).textTheme.titleMedium),
+                Text(widget.title,
+                    style: Theme.of(context).textTheme.titleMedium),
                 TextFormField(
-                  decoration:
-                      InputDecoration(hintText: hintText, labelText: hintText),
+                  controller: _textController,
+                  decoration: InputDecoration(
+                      hintText: widget.hintText, labelText: widget.hintText),
                 ),
                 Text(
-                  tipText,
+                  widget.tipText,
                   style: Theme.of(context)
                       .textTheme
                       .labelSmall!
                       .copyWith(fontStyle: FontStyle.italic),
                 ),
                 FilledButton(
-                  onPressed: () {},
-                  child: Text(buttonText),
+                  onPressed: () {
+                    widget.onPressed(_textController.text);
+                  },
+                  child: Text(widget.buttonText),
                 ),
               ],
             ),
@@ -47,16 +62,10 @@ class GroupChoiceCard extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  void dispose() {
+    _textController.dispose();
+    super.dispose();
+  }
 }
-/* 
-1. Neue Gruppe erstellen
-
-2. Gruppe beitreten
-
-3. Auswahl vorhandener Gruppen
-
-
-->>>> HomeScreen (mit eine Gruppe)
-
-
- */
