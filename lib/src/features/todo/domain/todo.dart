@@ -1,4 +1,4 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 enum Priority {
   low("niedrig", "low"),
@@ -11,6 +11,16 @@ enum Priority {
   final String english;
 }
 
+enum TodoIcon {
+  sport(Icons.sports),
+  food(Icons.dining),
+  shopping(Icons.shopping_cart);
+
+  const TodoIcon(this.icon);
+
+  final IconData icon;
+}
+
 class Todo {
   // Attribute
   final String id;
@@ -21,6 +31,7 @@ class Todo {
   final Color color;
   bool isDone;
   final DateTime dueDate;
+  final TodoIcon icon;
 
   // Konstruktor
   Todo({
@@ -32,5 +43,6 @@ class Todo {
     required this.color,
     required this.isDone,
     required this.dueDate,
+    required this.icon,
   });
 }

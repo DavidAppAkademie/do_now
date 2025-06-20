@@ -17,6 +17,7 @@ class MockDatabaseRepository implements DatabaseRepository {
       dueDate: DateTime.now().add(const Duration(days: 2)),
       priority: Priority.medium,
       color: Colors.red,
+      icon: TodoIcon.sport,
     ),
   ];
   final List<Group> _groupList = [

@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       return TodoCard(
                         title: todo.title,
                         subTitle: todo.description,
-                        icon: Icons.percent,
+                        icon: todo.icon.icon,
                         color: todo.color,
                         priority: todo.priority,
                       );

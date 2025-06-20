@@ -1,5 +1,6 @@
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
+import 'package:do_now/src/features/todo/presentation/icon_picker.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/color_slider.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/priority_slider.dart';
 import 'package:flutter/material.dart';
@@ -30,6 +31,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   final _descriptionController = TextEditingController();
   Priority _selectedPriority = Priority.medium;
   bool _isLoading = false;
+  TodoIcon _selectedIcon = TodoIcon.values.first;
 
   @override
   Widget build(BuildContext context) {
@@ -65,6 +67,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     _selectedPriority = p;
                   },
                 ),
+                IconPicker(onIconChanged: (icon) {
+                  _selectedIcon = icon;
+                }),
                 ColorSlider(
                   onColorSelected: (color) {
                     setState(() {
@@ -88,6 +93,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                               color: _selectedColor,
                               isDone: false,
                               dueDate: DateTime.now().add(Duration(days: 1)),
+                              icon: _selectedIcon,
                             );
 
                             setState(() {
@@ -118,36 +124,3 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
     super.dispose();
   }
 }
-
-/* 
-Firebase User:
-- ID
-- Email
-- Passwort
-- URL zum Profilbild (falls mit Google Signin)
-
-
-AppUser (Datenbank, also entweder Mock.., oder Firestore)
-
-- ID
-- Email
-- URL zum Profilbild (falls mit Google Signin)
-- Vorname
-- Nachname
-- Geburtsdatum
-- Adresse
-
-
-- Ablauf beim Registrieren
-  1. Firebase User wird erstellt
-  2. AppUser wird in Datenbank erstellt
-
-
-
-
-
-
-
-
-
- */
