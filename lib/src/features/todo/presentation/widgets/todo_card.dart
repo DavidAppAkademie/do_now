@@ -1,3 +1,4 @@
+import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ class TodoCard extends StatelessWidget {
   final String subTitle;
   final IconData icon;
   final Color color;
+  final Priority priority;
 
   const TodoCard({
     super.key,
@@ -14,6 +16,7 @@ class TodoCard extends StatelessWidget {
     required this.subTitle,
     required this.icon,
     required this.color,
+    required this.priority,
   });
 
   @override
@@ -53,10 +56,23 @@ class TodoCard extends StatelessWidget {
                   Text(subTitle, style: Theme.of(context).textTheme.bodyMedium),
                 ],
               ),
-            )
+            ),
+            Text(getPriorityEmoji(priority),
+                style: Theme.of(context).textTheme.headlineSmall)
           ],
         ),
       ),
     );
+  }
+
+  String getPriorityEmoji(Priority prio) {
+    switch (prio) {
+      case Priority.low:
+        return "🐢";
+      case Priority.medium:
+        return "📌";
+      case Priority.high:
+        return "🔥";
+    }
   }
 }

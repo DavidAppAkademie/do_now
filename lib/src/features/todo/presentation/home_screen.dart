@@ -123,6 +123,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         subTitle: todo.description,
                         icon: Icons.percent,
                         color: todo.color,
+                        priority: todo.priority,
                       );
                     },
                   );
