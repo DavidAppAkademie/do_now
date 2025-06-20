@@ -85,7 +85,9 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                         ? null
                         : () async {
                             final Todo todo = Todo(
-                              id: "123",
+                              id: DateTime.now()
+                                  .millisecondsSinceEpoch
+                                  .toString(),
                               groupId: widget.groupId,
                               title: _titleController.text,
                               description: _descriptionController.text,
