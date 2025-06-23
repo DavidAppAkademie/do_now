@@ -127,7 +127,17 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                             title: Text(group.name),
                                             subtitle: Text("Code: ${group.id}"),
                                             trailing: IconButton(
-                                                onPressed: () {},
+                                                onPressed: () async {
+                                                  // 1. db deleteGroup
+                                                  await widget.db.deleteGroup(
+                                                      "1", group.id);
+
+                                                  // 2. future neu setzen
+                                                  setState(() {
+                                                    _myGroup = widget.db
+                                                        .getGroups("1");
+                                                  });
+                                                },
                                                 icon: Icon(
                                                   Icons.delete,
                                                   color: Theme.of(context)

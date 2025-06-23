@@ -58,10 +58,23 @@ class _GroupChoiceCardState extends State<GroupChoiceCard> {
                           setState(() {
                             _isLoading = true;
                           });
-                          await widget.onPressed(_textController.text);
-                          setState(() {
-                            _isLoading = false;
-                          });
+
+                          try {
+                            await widget.onPressed(_textController.text);
+                          } catch (e) {
+                            // zeige dem Nutzer an, dass es die Gruppe nicht gibt
+                            if (context.mounted) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Gruppe existiert nicht"),
+                                ),
+                              );
+                            }
+                          } finally {
+                            setState(() {
+                              _isLoading = false;
+                            });
+                          }
                         },
                   child: Text(widget.buttonText),
                 ),
