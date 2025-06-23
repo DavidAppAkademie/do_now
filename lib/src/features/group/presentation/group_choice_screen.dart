@@ -19,6 +19,7 @@ class GroupChoiceScreen extends StatefulWidget {
 class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
   // State
   Future<List<Group>>? _myGroup;
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -123,33 +124,57 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                         itemBuilder: (context, index) {
                                           final Group group = myGroups[index];
                                           return ListTile(
-                                            onTap: () {
-                                              Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) =>
-                                                      HomeScreen(
-                                                    widget.db,
-                                                    group.id,
-                                                    groupName: group.name,
-                                                  ),
-                                                ),
-                                              );
-                                            },
+                                            onTap: _isLoading
+                                                ? null
+                                                : () {
+                                                    Navigator.pushReplacement(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            HomeScreen(
+                                                          widget.db,
+                                                          group.id,
+                                                          groupName: group.name,
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
                                             title: Text(group.name),
                                             subtitle: Text("Code: ${group.id}"),
                                             trailing: IconButton(
-                                                onPressed: () async {
-                                                  // 1. db deleteGroup
-                                                  await widget.db.deleteGroup(
-                                                      "1", group.id);
-
-                                                  // 2. future neu setzen
-                                                  setState(() {
-                                                    _myGroup = widget.db
-                                                        .getGroups("1");
-                                                  });
-                                                },
+                                                onPressed: _isLoading
+                                                    ? null
+                                                    : () async {
+                                                        setState(() {
+                                                          _isLoading = true;
+                                                        });
+                                                        // 1. db deleteGroup
+                                                        try {
+                                                          await widget.db
+                                                              .deleteGroup("1",
+                                                                  group.id);
+                                                          // 2. future neu setzen
+                                                          setState(() {
+                                                            _myGroup = widget.db
+                                                                .getGroups("1");
+                                                          });
+                                                        } catch (e) {
+                                                          if (context.mounted) {
+                                                            ScaffoldMessenger
+                                                                    .of(context)
+                                                                .showSnackBar(
+                                                              SnackBar(
+                                                                content: Text(
+                                                                    "Fehler beim Löschen der Gruppe: $e"),
+                                                              ),
+                                                            );
+                                                          }
+                                                        } finally {
+                                                          setState(() {
+                                                            _isLoading = false;
+                                                          });
+                                                        }
+                                                      },
                                                 icon: Icon(
                                                   Icons.delete,
                                                   color: Theme.of(context)
