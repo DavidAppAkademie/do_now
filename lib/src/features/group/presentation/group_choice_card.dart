@@ -6,7 +6,7 @@ class GroupChoiceCard extends StatefulWidget {
   final String hintText;
   final String tipText;
   final String buttonText;
-  final void Function(String value) onPressed;
+  final Future<void> Function(String value) onPressed;
 
   // Konstruktor
   const GroupChoiceCard({
@@ -23,7 +23,9 @@ class GroupChoiceCard extends StatefulWidget {
 }
 
 class _GroupChoiceCardState extends State<GroupChoiceCard> {
+  // State
   final _textController = TextEditingController();
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +52,17 @@ class _GroupChoiceCardState extends State<GroupChoiceCard> {
                       .copyWith(fontStyle: FontStyle.italic),
                 ),
                 FilledButton(
-                  onPressed: () {
-                    widget.onPressed(_textController.text);
-                  },
+                  onPressed: _isLoading
+                      ? null
+                      : () async {
+                          setState(() {
+                            _isLoading = true;
+                          });
+                          await widget.onPressed(_textController.text);
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        },
                   child: Text(widget.buttonText),
                 ),
               ],
