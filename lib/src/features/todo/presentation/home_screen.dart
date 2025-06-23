@@ -10,9 +10,10 @@ class HomeScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
   final String groupId;
+  final String groupName;
 
   // Konstruktor
-  const HomeScreen(this.db, this.groupId, {super.key});
+  const HomeScreen(this.db, this.groupId, {super.key, required this.groupName});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -43,11 +44,15 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    "DoNow",
-                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                          color: Palette.white,
-                        ),
+                  Expanded(
+                    child: Text(
+                      widget.groupName,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                            color: Palette.white,
+                          ),
+                    ),
                   ),
                   Text("Jun",
                       style: Theme.of(context).textTheme.titleLarge!.copyWith(

@@ -7,7 +7,7 @@ abstract class DatabaseRepository {
   Future<List<Group>> getGroups(String userId);
   Future<void> createGroup(String userId, Group group);
   Future<void> deleteGroup(String userId, String groupId);
-  Future<void> joinGroup(String userId, String groupId);
+  Future<Group> joinGroup(String userId, String groupId);
 
   // Todos
   Future<List<Todo>> getTodos(String groupId);

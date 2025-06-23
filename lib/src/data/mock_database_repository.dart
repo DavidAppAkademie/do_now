@@ -106,11 +106,12 @@ class MockDatabaseRepository implements DatabaseRepository {
   }
 
   @override
-  Future<void> joinGroup(String userId, String groupId) async {
+  Future<Group> joinGroup(String userId, String groupId) async {
     await Future.delayed(Duration(seconds: 5));
     final group = _groupList.firstWhere((group) => group.id == groupId);
     final user = _userList.firstWhere((user) => user.id == userId);
     group.members.add(user);
+    return group;
   }
 
   @override

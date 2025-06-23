@@ -65,7 +65,11 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomeScreen(widget.db, groupId),
+                        builder: (context) => HomeScreen(
+                          widget.db,
+                          groupId,
+                          groupName: value,
+                        ),
                       ),
                     );
                   }
@@ -77,13 +81,17 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                 tipText: "",
                 buttonText: "Beitreten",
                 onPressed: (groupCode) async {
-                  await widget.db.joinGroup("1", groupCode);
+                  final group = await widget.db.joinGroup("1", groupCode);
                   if (context.mounted) {
                     // zum Home Screen fuer diese beigetretene Gruppe
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HomeScreen(widget.db, groupCode),
+                        builder: (context) => HomeScreen(
+                          widget.db,
+                          groupCode,
+                          groupName: group.name,
+                        ),
                       ),
                     );
                   }
@@ -119,9 +127,13 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                               Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        HomeScreen(widget.db,
-                                                            group.id)),
+                                                  builder: (context) =>
+                                                      HomeScreen(
+                                                    widget.db,
+                                                    group.id,
+                                                    groupName: group.name,
+                                                  ),
+                                                ),
                                               );
                                             },
                                             title: Text(group.name),
