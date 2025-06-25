@@ -35,117 +35,125 @@ class _SignUpScreenState extends State<SignUpScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Column(
-            spacing: 16,
-            children: [
-              Text(
-                "Herzlich Willkommen!",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(
-                  labelText: "Email",
-                  hintText: "Email eingeben",
+          child: AutofillGroup(
+            child: Column(
+              spacing: 16,
+              children: [
+                Text(
+                  "Herzlich Willkommen!",
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
-              ),
-              TextFormField(
-                controller: _nameController,
-                decoration: InputDecoration(
-                  labelText: "Name",
-                  hintText: "Name eingeben",
+                SizedBox(
+                  height: 16,
                 ),
-              ),
-              TextFormField(
-                controller: _pwController,
-                decoration: InputDecoration(
-                  suffixIcon: IconButton(
-                    onPressed: () {
-                      setState(() {
-                        _isObscured = !_isObscured;
-                      });
-                    },
-                    icon: Icon(
-                        _isObscured ? Icons.visibility : Icons.visibility_off),
+                TextFormField(
+                  autofillHints: [AutofillHints.email],
+                  controller: _emailController,
+                  decoration: InputDecoration(
+                    labelText: "Email",
+                    hintText: "Email eingeben",
                   ),
-                  labelText: "Passwort",
-                  hintText: "Passwort eingeben",
                 ),
-                obscureText: _isObscured,
-              ),
-              TextFormField(
-                controller: _pwRepeatController,
-                decoration: InputDecoration(
-                  labelText: "Passwort wiederholen",
-                  hintText: "Passwort nochmal eingeben",
+                TextFormField(
+                  autofillHints: [AutofillHints.newUsername],
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    labelText: "Name",
+                    hintText: "Name eingeben",
+                  ),
                 ),
-                obscureText: _isObscured,
-              ),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () async {
-                    // Sign up user
-                    await _onSubmit(_emailController.text, _nameController.text,
-                        _pwController.text);
+                TextFormField(
+                  autofillHints: [AutofillHints.newPassword],
+                  controller: _pwController,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _isObscured = !_isObscured;
+                        });
+                      },
+                      icon: Icon(_isObscured
+                          ? Icons.visibility
+                          : Icons.visibility_off),
+                    ),
+                    labelText: "Passwort",
+                    hintText: "Passwort eingeben",
+                  ),
+                  obscureText: _isObscured,
+                ),
+                TextFormField(
+                  autofillHints: [AutofillHints.newPassword],
+                  controller: _pwRepeatController,
+                  decoration: InputDecoration(
+                    labelText: "Passwort wiederholen",
+                    hintText: "Passwort nochmal eingeben",
+                  ),
+                  obscureText: _isObscured,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton(
+                    onPressed: () async {
+                      // Sign up user
+                      await _onSubmit(_emailController.text,
+                          _nameController.text, _pwController.text);
 
-                    // Forward to GroupChoice Screen
-                    if (context.mounted) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GroupChoiceScreen(widget.db)),
-                      );
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Text("Registrieren"),
+                      // Forward to GroupChoice Screen
+                      if (context.mounted) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  GroupChoiceScreen(widget.db)),
+                        );
+                      }
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Text("Registrieren"),
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 16),
-              Row(
-                spacing: 16,
-                children: [
-                  Expanded(child: Divider()),
-                  Text("oder"),
-                  Expanded(child: Divider()),
-                ],
-              ),
-              SizedBox(height: 16),
-              Row(
-                spacing: 16,
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SocialLoginButton(icon: Icons.g_mobiledata),
-                  SocialLoginButton(icon: Icons.apple),
-                  SocialLoginButton(icon: Icons.facebook),
-                ],
-              ),
-              Spacer(),
-              Wrap(
-                alignment: WrapAlignment.end,
-                crossAxisAlignment: WrapCrossAlignment.center,
-                spacing: 8,
-                children: [
-                  Text("Du hast bereits einen Account?"),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => LoginScreen(widget.db)),
-                      );
-                    },
-                    child: Text("Login"),
-                  ),
-                ],
-              )
-            ],
+                SizedBox(height: 16),
+                Row(
+                  spacing: 16,
+                  children: [
+                    Expanded(child: Divider()),
+                    Text("oder"),
+                    Expanded(child: Divider()),
+                  ],
+                ),
+                SizedBox(height: 16),
+                Row(
+                  spacing: 16,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    SocialLoginButton(icon: Icons.g_mobiledata),
+                    SocialLoginButton(icon: Icons.apple),
+                    SocialLoginButton(icon: Icons.facebook),
+                  ],
+                ),
+                Spacer(),
+                Wrap(
+                  alignment: WrapAlignment.end,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: 8,
+                  children: [
+                    Text("Du hast bereits einen Account?"),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LoginScreen(widget.db)),
+                        );
+                      },
+                      child: Text("Login"),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
