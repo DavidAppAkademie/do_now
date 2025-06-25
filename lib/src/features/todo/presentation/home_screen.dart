@@ -123,12 +123,31 @@ class _HomeScreenState extends State<HomeScreen> {
                     itemCount: myTodos.length,
                     itemBuilder: (context, index) {
                       final Todo todo = myTodos[index];
-                      return TodoCard(
-                        title: todo.title,
-                        subTitle: todo.description,
-                        icon: todo.icon.icon,
-                        color: todo.color,
-                        priority: todo.priority,
+                      return Dismissible(
+                        key: Key(todo.id),
+                        child: TodoCard(
+                          title: todo.title,
+                          subTitle: todo.description,
+                          icon: todo.icon.icon,
+                          color: todo.color,
+                          priority: todo.priority,
+                          isDone: todo.isDone,
+                        ),
+                        confirmDismiss: (direction) async {
+                          if (direction == DismissDirection.startToEnd) {
+                            // von links nach rechts
+                            // todo abhaken
+                            await widget.db.checkTodo(widget.groupId, todo.id);
+                          } else if (direction == DismissDirection.endToStart) {
+                            // von rechts nach links
+                            // todo enthaken
+                            await widget.db
+                                .uncheckTodo(widget.groupId, todo.id);
+                          }
+                          setState(() {});
+
+                          return false;
+                        },
                       );
                     },
                   );
