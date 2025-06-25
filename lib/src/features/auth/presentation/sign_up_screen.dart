@@ -18,6 +18,16 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreenState extends State<SignUpScreen> {
   bool _isObscured = true;
+  final _emailController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _pwController = TextEditingController();
+  final _pwRepeatController = TextEditingController();
+
+  Future<void> _onSubmit(String email, String name, String pw) async {
+    print(
+        "$email will sich unter dem Namen $name und dem Passwort $pw registrieren");
+    // TODO: implement sign up with firebase authentication
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,18 +46,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 height: 16,
               ),
               TextFormField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: "Email",
                   hintText: "Email eingeben",
                 ),
               ),
               TextFormField(
+                controller: _nameController,
                 decoration: InputDecoration(
                   labelText: "Name",
                   hintText: "Name eingeben",
                 ),
               ),
               TextFormField(
+                controller: _pwController,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -64,6 +77,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 obscureText: _isObscured,
               ),
               TextFormField(
+                controller: _pwRepeatController,
                 decoration: InputDecoration(
                   labelText: "Passwort wiederholen",
                   hintText: "Passwort nochmal eingeben",
@@ -73,12 +87,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GroupChoiceScreen(widget.db)),
-                    );
+                  onPressed: () async {
+                    // Sign up user
+                    await _onSubmit(_emailController.text, _nameController.text,
+                        _pwController.text);
+
+                    // Forward to GroupChoice Screen
+                    if (context.mounted) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroupChoiceScreen(widget.db)),
+                      );
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -129,5 +150,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _nameController.dispose();
+    _pwController.dispose();
+    _pwRepeatController.dispose();
+    super.dispose();
   }
 }

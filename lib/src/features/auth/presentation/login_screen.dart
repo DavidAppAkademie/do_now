@@ -16,6 +16,13 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isObscured = true;
+  final _emailController = TextEditingController();
+  final _pwController = TextEditingController();
+
+  Future<void> _onSubmit(String email, String pw) async {
+    print("Nutzer mit $email will sich mit $pw anmelden");
+    // TODO: implement Firebase Auth login
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,12 +41,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: 16,
               ),
               TextFormField(
+                controller: _emailController,
                 decoration: InputDecoration(
                   labelText: "Email",
                   hintText: "Email eingeben",
                 ),
               ),
               TextFormField(
+                controller: _pwController,
                 decoration: InputDecoration(
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -65,12 +74,16 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(
                 width: double.infinity,
                 child: FilledButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GroupChoiceScreen(widget.db)),
-                    );
+                  onPressed: () async {
+                    await _onSubmit(_emailController.text, _pwController.text);
+
+                    if (context.mounted) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroupChoiceScreen(widget.db)),
+                      );
+                    }
                   },
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -121,5 +134,12 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _pwController.dispose();
+    super.dispose();
   }
 }
