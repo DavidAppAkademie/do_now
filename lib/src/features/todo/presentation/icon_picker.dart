@@ -17,55 +17,82 @@ class _IconPickerState extends State<IconPicker> {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme.primary;
     final colorWeak = color;
-    return Wrap(
-      runSpacing: 16,
-      spacing: 32,
-      children: TodoIcon.values.map(
-        (e) {
-          bool isSelected = _selectedIcon == e;
-          return GestureDetector(
-            onTap: () {
-              setState(() {
-                _selectedIcon = e;
-              });
-              widget.onIconChanged(_selectedIcon);
-            },
-            child: Opacity(
-              opacity: isSelected ? 1 : 0.6,
-              child: Container(
-                decoration: BoxDecoration(
-                  boxShadow: [
-                    BoxShadow(
-                        color: color.withAlpha(200),
-                        blurRadius: isSelected ? 6 : 0,
-                        spreadRadius: 0),
-                  ],
-                  color: isSelected ? color : colorWeak,
-                  borderRadius: BorderRadius.all(Radius.circular(16)),
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Row(
+              spacing: 4,
+              children: [
+                Text(
+                  "Symbole",
+                  style: Theme.of(context).textTheme.titleSmall,
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                Tooltip(
+                  message:
+                      "Wähle hier ein Symbol für die Darstellung in der Todo Liste",
                   child: Icon(
-                    e.icon,
-                    color: isSelected ? Palette.white : null,
-                    size: 32,
+                    Icons.info,
+                    size: 16,
                   ),
-                ),
-              ),
+                )
+              ],
             ),
-          );
+            SizedBox(height: 16),
+            Wrap(
+              runSpacing: 16,
+              spacing: 32,
+              children: TodoIcon.values.map(
+                (e) {
+                  bool isSelected = _selectedIcon == e;
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _selectedIcon = e;
+                      });
+                      widget.onIconChanged(_selectedIcon);
+                    },
+                    child: Opacity(
+                      opacity: isSelected ? 1 : 0.6,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                                color: color.withAlpha(200),
+                                blurRadius: isSelected ? 6 : 0,
+                                spreadRadius: 0),
+                          ],
+                          color: isSelected ? color : colorWeak,
+                          borderRadius: BorderRadius.all(Radius.circular(16)),
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Icon(
+                            e.icon,
+                            color: isSelected ? Palette.white : null,
+                            size: 32,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
 
-          // return IconButton(
-          //   onPressed: () {
-          //     setState(() {
-          //       _selectedIcon = e;
-          //     });
-          //   },
-          //   icon: Icon(e.icon, size: 32),
-          //   color: _selectedIcon == e ? Theme.of(context).primaryColor : null,
-          // );
-        },
-      ).toList(),
+                  // return IconButton(
+                  //   onPressed: () {
+                  //     setState(() {
+                  //       _selectedIcon = e;
+                  //     });
+                  //   },
+                  //   icon: Icon(e.icon, size: 32),
+                  //   color: _selectedIcon == e ? Theme.of(context).primaryColor : null,
+                  // );
+                },
+              ).toList(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
