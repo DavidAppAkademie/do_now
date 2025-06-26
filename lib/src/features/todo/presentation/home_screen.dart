@@ -125,6 +125,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       final Todo todo = myTodos[index];
                       return Dismissible(
                         key: Key(todo.id),
+                        secondaryBackground: Container(
+                          padding: EdgeInsets.all(16),
+                          alignment: Alignment.centerRight,
+                          color: Palette.green,
+                          child: Icon(Icons.check),
+                        ),
+                        background: Container(
+                          padding: EdgeInsets.all(16),
+                          alignment: Alignment.centerLeft,
+                          color: Theme.of(context).colorScheme.error,
+                          child: Icon(Icons.undo),
+                        ),
                         child: TodoCard(
                           title: todo.title,
                           subTitle: todo.description,
@@ -135,14 +147,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                         confirmDismiss: (direction) async {
                           if (direction == DismissDirection.startToEnd) {
-                            // von links nach rechts
-                            // todo abhaken
-                            await widget.db.checkTodo(widget.groupId, todo.id);
-                          } else if (direction == DismissDirection.endToStart) {
                             // von rechts nach links
                             // todo enthaken
                             await widget.db
                                 .uncheckTodo(widget.groupId, todo.id);
+                          } else if (direction == DismissDirection.endToStart) {
+                            // von links nach rechts
+                            // todo abhaken
+                            await widget.db.checkTodo(widget.groupId, todo.id);
                           }
                           setState(() {});
 
