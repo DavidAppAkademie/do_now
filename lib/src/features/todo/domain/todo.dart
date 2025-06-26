@@ -14,6 +14,9 @@ enum Priority {
 enum TodoIcon {
   sport(Icons.sports),
   food(Icons.dining),
+  meeting(Icons.group),
+  pets(Icons.pets),
+  doctor(Icons.medical_information),
   shopping(Icons.shopping_cart);
 
   const TodoIcon(this.icon);
