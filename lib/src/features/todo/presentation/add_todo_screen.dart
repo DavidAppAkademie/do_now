@@ -1,10 +1,10 @@
+import 'package:do_now/src/common/date_formats.dart';
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/features/todo/presentation/icon_picker.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/color_slider.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/priority_slider.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class AddTodoScreen extends StatefulWidget {
   // Attribute
@@ -97,8 +97,8 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                             });
                           }
                         },
-                        child: Text(
-                            "Fällig am: ${DateFormat.yMMMEd('de').format(_selectedDate)}")),
+                        child:
+                            Text("Fällig am: ${_selectedDate.longDateString}")),
                   ],
                 ),
                 SizedBox(height: 16),
