@@ -4,6 +4,7 @@ import 'package:do_now/src/features/todo/presentation/icon_picker.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/color_slider.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/priority_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class AddTodoScreen extends StatefulWidget {
   // Attribute
@@ -32,6 +33,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
   Priority _selectedPriority = Priority.medium;
   bool _isLoading = false;
   TodoIcon _selectedIcon = TodoIcon.values.first;
+  DateTime _selectedDate = DateTime.now().add(Duration(days: 1));
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +79,28 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                     });
                   },
                 ),
+                Row(
+                  spacing: 8,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(DateFormat.yMMMEd('de').format(_selectedDate)),
+                    TextButton(
+                        onPressed: () async {
+                          final DateTime? newDate = await showDatePicker(
+                            context: context,
+                            firstDate: DateTime.now(),
+                            lastDate:
+                                DateTime.now().add(Duration(days: 365 * 100)),
+                          );
+                          if (newDate != null) {
+                            setState(() {
+                              _selectedDate = newDate;
+                            });
+                          }
+                        },
+                        child: Text("Datum wählen"))
+                  ],
+                ),
                 SizedBox(height: 16),
                 SizedBox(
                   width: double.infinity,
@@ -94,7 +118,7 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                               priority: _selectedPriority,
                               color: _selectedColor,
                               isDone: false,
-                              dueDate: DateTime.now().add(Duration(days: 1)),
+                              dueDate: _selectedDate,
                               icon: _selectedIcon,
                             );
 
