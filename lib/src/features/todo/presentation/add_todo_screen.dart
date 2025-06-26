@@ -81,9 +81,8 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                 ),
                 Row(
                   spacing: 8,
-                  mainAxisAlignment: MainAxisAlignment.end,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(DateFormat.yMMMEd('de').format(_selectedDate)),
                     TextButton(
                         onPressed: () async {
                           final DateTime? newDate = await showDatePicker(
@@ -98,7 +97,8 @@ class _AddTodoScreenState extends State<AddTodoScreen> {
                             });
                           }
                         },
-                        child: Text("Datum wählen"))
+                        child: Text(
+                            "Fällig am: ${DateFormat.yMMMEd('de').format(_selectedDate)}")),
                   ],
                 ),
                 SizedBox(height: 16),
