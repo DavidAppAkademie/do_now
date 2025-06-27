@@ -29,57 +29,55 @@ class _GroupChoiceCardState extends State<GroupChoiceCard> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Card(
-        child: Padding(
-          padding: const EdgeInsets.all(16),
-          child: Center(
-            child: Column(
-              spacing: 16,
-              children: [
-                Text(widget.title,
-                    style: Theme.of(context).textTheme.titleMedium),
-                TextFormField(
-                  controller: _textController,
-                  decoration: InputDecoration(
-                      hintText: widget.hintText, labelText: widget.hintText),
-                ),
-                Text(
-                  widget.tipText,
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelSmall!
-                      .copyWith(fontStyle: FontStyle.italic),
-                ),
-                FilledButton(
-                  onPressed: _isLoading
-                      ? null
-                      : () async {
-                          setState(() {
-                            _isLoading = true;
-                          });
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Center(
+          child: Column(
+            spacing: 16,
+            children: [
+              Text(widget.title,
+                  style: Theme.of(context).textTheme.titleMedium),
+              TextFormField(
+                controller: _textController,
+                decoration: InputDecoration(
+                    hintText: widget.hintText, labelText: widget.hintText),
+              ),
+              Text(
+                widget.tipText,
+                style: Theme.of(context)
+                    .textTheme
+                    .labelSmall!
+                    .copyWith(fontStyle: FontStyle.italic),
+              ),
+              FilledButton(
+                onPressed: _isLoading
+                    ? null
+                    : () async {
+                        setState(() {
+                          _isLoading = true;
+                        });
 
-                          try {
-                            await widget.onPressed(_textController.text);
-                          } catch (e) {
-                            // zeige dem Nutzer an, dass es die Gruppe nicht gibt
-                            if (context.mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Gruppe existiert nicht"),
-                                ),
-                              );
-                            }
-                          } finally {
-                            setState(() {
-                              _isLoading = false;
-                            });
+                        try {
+                          await widget.onPressed(_textController.text);
+                        } catch (e) {
+                          // zeige dem Nutzer an, dass es die Gruppe nicht gibt
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Gruppe existiert nicht"),
+                              ),
+                            );
                           }
-                        },
-                  child: Text(widget.buttonText),
-                ),
-              ],
-            ),
+                        } finally {
+                          setState(() {
+                            _isLoading = false;
+                          });
+                        }
+                      },
+                child: Text(widget.buttonText),
+              ),
+            ],
           ),
         ),
       ),
