@@ -1,6 +1,8 @@
 import 'package:do_now/firebase_options.dart';
 import 'package:do_now/src/app.dart';
+import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/data/database_repository.dart';
+import 'package:do_now/src/data/firebase_auth_repository.dart';
 import 'package:do_now/src/data/mock_database_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,8 @@ void main() async {
 
   await initializeDateFormatting('de_DE');
 
+  final AuthRepository auth = FirebaseAuthRepository();
   final DatabaseRepository db = MockDatabaseRepository();
 
-  runApp(App(db));
+  runApp(App(db, auth));
 }

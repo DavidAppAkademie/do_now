@@ -1,14 +1,15 @@
+import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
-import 'package:do_now/src/features/group/presentation/group_choice_screen.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
+  final AuthRepository auth;
 
-  const LoginScreen(this.db, {super.key});
+  const LoginScreen(this.db, this.auth, {super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,8 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final _pwController = TextEditingController();
 
   Future<void> _onSubmit(String email, String pw) async {
-    print("Nutzer mit $email will sich mit $pw anmelden");
-    // TODO: implement Firebase Auth login
+    await widget.auth.signInWithEmailAndPassword(email, pw);
   }
 
   @override
@@ -82,15 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                       onPressed: () async {
                         await _onSubmit(
                             _emailController.text, _pwController.text);
-
-                        if (context.mounted) {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    GroupChoiceScreen(widget.db)),
-                          );
-                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -129,7 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SignUpScreen(widget.db)),
+                                builder: (context) =>
+                                    SignUpScreen(widget.db, widget.auth)),
                           );
                         },
                         child: Text("Registrieren"),

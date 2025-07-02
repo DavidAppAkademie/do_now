@@ -1,3 +1,4 @@
+import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/features/todo/presentation/add_todo_screen.dart';
@@ -9,11 +10,13 @@ import 'package:flutter/material.dart';
 class HomeScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
+  final AuthRepository auth;
   final String groupId;
   final String groupName;
 
   // Konstruktor
-  const HomeScreen(this.db, this.groupId, {super.key, required this.groupName});
+  const HomeScreen(this.db, this.auth, this.groupId,
+      {super.key, required this.groupName});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -69,7 +72,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   DateContainer(day: "21", isToday: false),
                   DateContainer(day: "22", isToday: false),
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await widget.auth.signOut();
+                    },
                     icon: Icon(
                       Icons.chevron_right,
                       color: Palette.white,

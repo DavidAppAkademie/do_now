@@ -1,3 +1,4 @@
+import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/auth/domain/app_user.dart';
 import 'package:do_now/src/features/group/domain/group.dart';
@@ -8,9 +9,10 @@ import 'package:flutter/material.dart';
 class GroupChoiceScreen extends StatefulWidget {
   // Attribute
   final DatabaseRepository db;
+  final AuthRepository auth;
 
   // Konstruktor
-  const GroupChoiceScreen(this.db, {super.key});
+  const GroupChoiceScreen(this.db, this.auth, {super.key});
 
   @override
   State<GroupChoiceScreen> createState() => _GroupChoiceScreenState();
@@ -69,6 +71,7 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                         MaterialPageRoute(
                           builder: (context) => HomeScreen(
                             widget.db,
+                            widget.auth,
                             groupId,
                             groupName: value,
                           ),
@@ -91,6 +94,7 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                         MaterialPageRoute(
                           builder: (context) => HomeScreen(
                             widget.db,
+                            widget.auth,
                             groupCode,
                             groupName: group.name,
                           ),
@@ -132,6 +136,7 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                                       builder: (context) =>
                                                           HomeScreen(
                                                         widget.db,
+                                                        widget.auth,
                                                         group.id,
                                                         groupName: group.name,
                                                       ),
