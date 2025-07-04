@@ -23,4 +23,9 @@ class FirebaseAuthRepository implements AuthRepository {
   Stream<User?> authStateChanges() {
     return FirebaseAuth.instance.authStateChanges();
   }
+
+  @override
+  Future<void> sendVerificationEmail() async {
+    await FirebaseAuth.instance.currentUser?.sendEmailVerification();
+  }
 }

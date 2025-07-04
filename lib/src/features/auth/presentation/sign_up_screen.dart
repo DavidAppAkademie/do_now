@@ -26,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Future<void> _onSubmit(String email, String name, String pw) async {
     await widget.auth.createUserWithEmailAndPassword(email, pw);
+    await widget.auth.sendVerificationEmail();
   }
 
   @override
