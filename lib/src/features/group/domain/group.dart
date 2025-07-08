@@ -16,6 +16,24 @@ class Group {
   });
 
   // Methoden
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'name': name,
+      'members': members.map((e) => e.toMap()).toList(),
+      'creatorId': creatorId,
+    };
+  }
+
+  factory Group.fromMap(Map<String, dynamic> map) {
+    return Group(
+      id: map['id'],
+      name: map['name'],
+      members: (map['members'] as List).map((e) => AppUser.fromMap(e)).toList(),
+      creatorId: map['creatorId'],
+    );
+  }
+
   AppUser? getCreator() {
     for (AppUser user in members) {
       // is user creator?

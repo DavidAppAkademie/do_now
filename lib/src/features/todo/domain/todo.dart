@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 enum Priority {
@@ -48,4 +49,32 @@ class Todo {
     required this.dueDate,
     required this.icon,
   });
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'groupId': groupId,
+      'title': title,
+      'description': description,
+      'priority': priority.name,
+      'color': color.toARGB32(),
+      'isDone': isDone,
+      'dueDate': dueDate,
+      'icon': icon.name,
+    };
+  }
+
+  factory Todo.fromMap(Map<String, dynamic> map) {
+    return Todo(
+      id: map['id'],
+      groupId: map['groupId'],
+      title: map['title'],
+      description: map['description'],
+      priority: Priority.values.byName(map['priority']),
+      color: Color(map['color']),
+      isDone: map['isDone'],
+      dueDate: (map['dueDate'] as Timestamp).toDate(),
+      icon: TodoIcon.values.byName(map['icon']),
+    );
+  }
 }
