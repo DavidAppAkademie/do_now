@@ -63,6 +63,9 @@ class DefaultFirebaseOptions {
     messagingSenderId: '784527243811',
     projectId: 'do-now-app',
     storageBucket: 'do-now-app.firebasestorage.app',
+    androidClientId: '784527243811-1mklf61bbv6u3p26ft48hsesasn4f8ae.apps.googleusercontent.com',
+    iosClientId: '784527243811-pl623mls0eefipv9557lomj8q21gkl3n.apps.googleusercontent.com',
     iosBundleId: 'com.example.doNow',
   );
+
 }
