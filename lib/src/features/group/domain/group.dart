@@ -21,6 +21,7 @@ class Group {
       'id': id,
       'name': name,
       'members': members.map((e) => e.toMap()).toList(),
+      'memberIds': members.map((e) => e.id).toList(),
       'creatorId': creatorId,
     };
   }
