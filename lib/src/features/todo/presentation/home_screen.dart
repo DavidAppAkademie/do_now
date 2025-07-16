@@ -26,12 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<List<Todo>>? _myTodos;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    // context.read darf nicht in initState() verwendet werden,
-    // da der Kontext dort noch nicht vollständig aufgebaut ist.
-    // didChangeDependencies wird aufgerufen, wenn der Kontext vollständig ist.
-    _myTodos ??= context.read<DatabaseRepository>().getTodos(widget.groupId);
+  void initState() {
+    super.initState();
+    _myTodos = context.read<DatabaseRepository>().getTodos(widget.groupId);
   }
 
   // Methode(n)
