@@ -20,9 +20,12 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
   bool _isLoading = false;
 
   @override
-  void initState() {
-    super.initState();
-    // _myGroup = widget.db.getGroups("1");
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // context.read darf nicht in initState() verwendet werden,
+    // da der Kontext dort noch nicht vollständig aufgebaut ist.
+    // didChangeDependencies wird aufgerufen, wenn der Kontext vollständig ist.
+    _myGroup ??= context.read<DatabaseRepository>().getGroups("1");
   }
 
   // Methode(n)
