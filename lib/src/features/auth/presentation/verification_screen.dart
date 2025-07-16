@@ -3,10 +3,10 @@ import 'dart:async';
 import 'package:do_now/src/data/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class VerificationScreen extends StatefulWidget {
-  final AuthRepository auth;
-  const VerificationScreen(this.auth, {super.key});
+  const VerificationScreen({super.key});
 
   @override
   State<VerificationScreen> createState() => _VerificationScreenState();
@@ -43,10 +43,12 @@ class _VerificationScreenState extends State<VerificationScreen> {
                 style: Theme.of(context).textTheme.displayMedium,
               ),
               IconButton(
-                  onPressed: () async {
-                    await widget.auth.signOut();
-                  },
-                  icon: Icon(Icons.exit_to_app)),
+                onPressed: () async {
+                  final auth = context.read<AuthRepository>();
+                  await auth.signOut();
+                },
+                icon: Icon(Icons.exit_to_app),
+              ),
             ],
           ),
         ),

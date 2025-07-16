@@ -1,15 +1,12 @@
 import 'package:do_now/src/data/auth_repository.dart';
-import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
   // Attribute
-  final DatabaseRepository db;
-  final AuthRepository auth;
-
-  const LoginScreen(this.db, this.auth, {super.key});
+  const LoginScreen({super.key});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
@@ -20,12 +17,14 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
 
-  Future<void> _onSubmit(String email, String pw) async {
-    await widget.auth.signInWithEmailAndPassword(email, pw);
+  Future<void> _onSubmit(AuthRepository auth, String email, String pw) async {
+    await auth.signInWithEmailAndPassword(email, pw);
   }
 
   @override
   Widget build(BuildContext context) {
+    final auth = context.watch<AuthRepository>();
+
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -60,9 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             _isObscured = !_isObscured;
                           });
                         },
-                        icon: Icon(_isObscured
-                            ? Icons.visibility
-                            : Icons.visibility_off),
+                        icon: Icon(
+                          _isObscured ? Icons.visibility : Icons.visibility_off,
+                        ),
                       ),
                       labelText: "Passwort",
                       hintText: "Passwort eingeben",
@@ -81,7 +80,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: FilledButton(
                       onPressed: () async {
                         await _onSubmit(
-                            _emailController.text, _pwController.text);
+                          auth,
+                          _emailController.text,
+                          _pwController.text,
+                        );
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
@@ -120,14 +122,14 @@ class _LoginScreenState extends State<LoginScreen> {
                           Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(
-                                builder: (context) =>
-                                    SignUpScreen(widget.db, widget.auth)),
+                              builder: (context) => SignUpScreen(),
+                            ),
                           );
                         },
                         child: Text("Registrieren"),
                       ),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
