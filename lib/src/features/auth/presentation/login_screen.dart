@@ -1,4 +1,5 @@
 import 'package:do_now/src/data/auth_repository.dart';
+import 'package:do_now/src/features/auth/presentation/password_recovery_screen.dart';
 import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
@@ -71,7 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.centerRight,
                     child: TextButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PasswordRecoveryScreen(),
+                          ),
+                        );
+                      },
                       child: Text("Passwort vergessen?"),
                     ),
                   ),
