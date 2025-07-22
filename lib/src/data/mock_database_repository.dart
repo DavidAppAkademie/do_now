@@ -9,7 +9,7 @@ class MockDatabaseRepository implements DatabaseRepository {
   // Simulierte Datenbanken
   final List<Todo> _todoList = [
     Todo(
-      id: "1",
+      id: 'w2MeBZSYGEZnFZlkvzPy2Pwfzz42',
       groupId: "111",
       title: "Walk the dog",
       description: "Take the dog for a walk in the park",
@@ -26,33 +26,33 @@ class MockDatabaseRepository implements DatabaseRepository {
       name: "Family",
       members: [
         AppUser(
-          id: "1",
+          id: 'w2MeBZSYGEZnFZlkvzPy2Pwfzz42',
           name: "David",
           email: "david@web.de",
           photoUrl:
               "https://ca.slack-edge.com/T044YC3MSLF-U05GXAU2DH6-75f1f34f2c6f-48",
         ),
       ],
-      creatorId: "1",
+      creatorId: 'w2MeBZSYGEZnFZlkvzPy2Pwfzz42',
     ),
     Group(
       id: "112",
       name: "Einkaufen",
       members: [
         AppUser(
-          id: "1",
+          id: 'w2MeBZSYGEZnFZlkvzPy2Pwfzz42',
           name: "David",
           email: "david@web.de",
           photoUrl:
               "https://ca.slack-edge.com/T044YC3MSLF-U05GXAU2DH6-75f1f34f2c6f-48",
         ),
       ],
-      creatorId: "1",
+      creatorId: 'w2MeBZSYGEZnFZlkvzPy2Pwfzz42',
     ),
   ];
   final List<AppUser> _userList = [
     AppUser(
-      id: "1",
+      id: 'w2MeBZSYGEZnFZlkvzPy2Pwfzz42',
       name: "David",
       email: "david@web.de",
       photoUrl:
