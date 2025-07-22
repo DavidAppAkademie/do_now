@@ -1,4 +1,3 @@
-import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/features/todo/presentation/add_todo_screen.dart';
@@ -24,17 +23,97 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // State
   Future<List<Todo>>? _myTodos;
+  int _dayOffset = 0; // Offset from today (0 = today, 1 = tomorrow, etc.)
+  DateTime? _selectedDate; // Ausgewähltes Datum
 
   @override
   void initState() {
     super.initState();
     _myTodos = context.read<DatabaseRepository>().getTodos(widget.groupId);
+    _selectedDate = DateTime.now(); // Setze heute als Standard
+  }
+
+  // Methode zum Navigieren zu nächsten Tagen
+  void _navigateToNextDays() {
+    setState(() {
+      _dayOffset += 4; // Springe 4 Tage vorwärts
+    });
+  }
+
+  // Methode zum Navigieren zu vorherigen Tagen
+  void _navigateToPreviousDays() {
+    setState(() {
+      _dayOffset -= 4; // Springe 4 Tage rückwärts
+    });
+  }
+
+  // Methode zum Auswählen eines Datums
+  void _selectDate(DateTime date) {
+    setState(() {
+      _selectedDate = date;
+    });
+  }
+
+  // Methode zum Generieren der Datum-Liste
+  List<DateTime> _generateDates() {
+    final today = DateTime.now();
+    return List.generate(4, (index) {
+      return today.add(Duration(days: _dayOffset + index));
+    });
+  }
+
+  // Methode zum Formatieren des Monats und Jahres
+  String _getMonthYearDisplay(DateTime date) {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mär',
+      'Apr',
+      'Mai',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Okt',
+      'Nov',
+      'Dez',
+    ];
+    final currentYear = DateTime.now().year;
+    final monthName = months[date.month - 1];
+
+    // Zeige Jahr nur wenn es nicht das aktuelle Jahr ist
+    if (date.year != currentYear) {
+      return '$monthName ${date.year}';
+    }
+    return monthName;
+  }
+
+  // Methode zum Überprüfen ob ein Datum heute ist
+  bool _isToday(DateTime date) {
+    final today = DateTime.now();
+    return date.day == today.day &&
+        date.month == today.month &&
+        date.year == today.year;
+  }
+
+  // Methode zum Überprüfen ob ein Datum ausgewählt ist
+  bool _isSelected(DateTime date) {
+    if (_selectedDate == null) return false;
+    return date.day == _selectedDate!.day &&
+        date.month == _selectedDate!.month &&
+        date.year == _selectedDate!.year;
+  }
+
+  // Methode zum Überprüfen ob Rückwärts-Navigation möglich ist
+  bool _canNavigateBackward() {
+    final today = DateTime.now();
+    final firstVisibleDate = today.add(Duration(days: _dayOffset));
+    return firstVisibleDate.isAfter(today);
   }
 
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepository>();
     final db = context.watch<DatabaseRepository>();
     //List<Todo> myTodos = widget.db.getTodos(widget.groupId);
 
@@ -60,7 +139,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                   Text(
-                    "Jun",
+                    _getMonthYearDisplay(_generateDates().first),
                     style: Theme.of(context).textTheme.titleLarge!.copyWith(
                       color: Palette.white,
                     ),
@@ -70,14 +149,30 @@ class _HomeScreenState extends State<HomeScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  DateContainer(day: "19", isToday: true),
-                  DateContainer(day: "20", isToday: false),
-                  DateContainer(day: "21", isToday: false),
-                  DateContainer(day: "22", isToday: false),
+                  // Rückwärts-Navigation Button (nur anzeigen wenn möglich)
+                  if (_canNavigateBackward())
+                    IconButton(
+                      onPressed: _navigateToPreviousDays,
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: Palette.white,
+                      ),
+                    )
+                  else
+                    SizedBox(width: 48), // Platzhalter für symmetrisches Layout
+                  // DateContainer widgets
+                  ..._generateDates().map(
+                    (date) => DateContainer(
+                      day: date.day.toString(),
+                      isToday: _isToday(date),
+                      isSelected: _isSelected(date),
+                      onTap: () => _selectDate(date),
+                    ),
+                  ),
+
+                  // Vorwärts-Navigation Button
                   IconButton(
-                    onPressed: () async {
-                      await auth.signOut();
-                    },
+                    onPressed: _navigateToNextDays,
                     icon: Icon(
                       Icons.chevron_right,
                       color: Palette.white,
