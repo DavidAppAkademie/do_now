@@ -7,8 +7,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class GroupChoiceScreen extends StatefulWidget {
+  final String userId;
   // Konstruktor
-  const GroupChoiceScreen({super.key});
+  const GroupChoiceScreen({super.key, required this.userId});
 
   @override
   State<GroupChoiceScreen> createState() => _GroupChoiceScreenState();
@@ -22,7 +23,7 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
   @override
   void initState() {
     super.initState();
-    _myGroup = context.read<DatabaseRepository>().getGroups("1");
+    _myGroup = context.read<DatabaseRepository>().getGroups(widget.userId);
   }
 
   // Methode(n)
@@ -48,17 +49,17 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                   buttonText: "Erstellen",
                   onPressed: (String value) async {
                     // AppUser bekommen
-                    final AppUser user = await db.getUser("1");
+                    final AppUser user = await db.getUser(widget.userId);
                     // Gruppe erstellen
                     final String groupId = DateTime.now().millisecondsSinceEpoch
                         .toString();
                     await db.createGroup(
-                      "1",
+                      widget.userId,
                       Group(
                         id: groupId,
                         name: value,
                         members: [user],
-                        creatorId: "1",
+                        creatorId: widget.userId,
                       ),
                     );
 
@@ -82,7 +83,7 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                   tipText: "",
                   buttonText: "Beitreten",
                   onPressed: (groupCode) async {
-                    final group = await db.joinGroup("1", groupCode);
+                    final group = await db.joinGroup(widget.userId, groupCode);
                     if (context.mounted) {
                       // zum Home Screen fuer diese beigetretene Gruppe
                       Navigator.pushReplacement(
@@ -149,13 +150,13 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
                                                   // 1. db deleteGroup
                                                   try {
                                                     await db.deleteGroup(
-                                                      "1",
+                                                      widget.userId,
                                                       group.id,
                                                     );
                                                     // 2. future neu setzen
                                                     setState(() {
                                                       _myGroup = db.getGroups(
-                                                        "1",
+                                                        widget.userId,
                                                       );
                                                     });
                                                   } catch (e) {

@@ -41,7 +41,9 @@ class App extends StatelessWidget {
       if (!currentUser.emailVerified) {
         return VerificationScreen();
       } else {
-        return GroupChoiceScreen();
+        return GroupChoiceScreen(
+          userId: currentUser.uid,
+        );
       }
     }
   }
