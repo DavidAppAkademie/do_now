@@ -15,11 +15,81 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isObscured = true;
+  bool _isLoading = false;
   final _emailController = TextEditingController();
   final _pwController = TextEditingController();
 
+  bool _validateInput(String email, String password) {
+    if (email.trim().isEmpty || password.trim().isEmpty) {
+      _showValidationError('Bitte fülle alle Felder aus');
+      return false;
+    }
+    return true;
+  }
+
+  void _showValidationError(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.orange,
+      ),
+    );
+  }
+
+  void _showAuthError(dynamic error) {
+    String errorMessage = _getErrorMessage(error);
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(errorMessage),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 4),
+        ),
+      );
+    }
+  }
+
+  String _getErrorMessage(dynamic error) {
+    // Firebase Auth spezifische Fehler behandeln
+    if (error.toString().contains('user-not-found')) {
+      return 'Kein Benutzer mit dieser Email gefunden';
+    } else if (error.toString().contains('wrong-password') ||
+        error.toString().contains('invalid-credential')) {
+      return 'Ungültige Email oder Passwort';
+    } else if (error.toString().contains('invalid-email')) {
+      return 'Ungültige Email-Adresse';
+    } else if (error.toString().contains('user-disabled')) {
+      return 'Dieser Account wurde deaktiviert';
+    } else if (error.toString().contains('too-many-requests')) {
+      return 'Zu viele Anmeldeversuche. Versuche es später erneut';
+    } else if (error.toString().contains('network-request-failed')) {
+      return 'Netzwerkfehler. Überprüfe deine Internetverbindung';
+    }
+    return 'Unbekannter Fehler aufgetreten';
+  }
+
   Future<void> _onSubmit(AuthRepository auth, String email, String pw) async {
-    await auth.signInWithEmailAndPassword(email, pw);
+    if (!_validateInput(email, pw)) {
+      return;
+    }
+
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      await auth.signInWithEmailAndPassword(email.trim(), pw);
+      // Navigation erfolgt automatisch durch AuthStateChanges
+    } catch (e) {
+      _showAuthError(e);
+    } finally {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+      }
+    }
   }
 
   @override
@@ -86,16 +156,29 @@ class _LoginScreenState extends State<LoginScreen> {
                   SizedBox(
                     width: double.infinity,
                     child: FilledButton(
-                      onPressed: () async {
-                        await _onSubmit(
-                          auth,
-                          _emailController.text,
-                          _pwController.text,
-                        );
-                      },
+                      onPressed: _isLoading
+                          ? null
+                          : () async {
+                              await _onSubmit(
+                                auth,
+                                _emailController.text,
+                                _pwController.text,
+                              );
+                            },
                       child: Padding(
                         padding: const EdgeInsets.all(16.0),
-                        child: Text("Login"),
+                        child: _isLoading
+                            ? SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                    Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                                ),
+                              )
+                            : Text("Login"),
                       ),
                     ),
                   ),
