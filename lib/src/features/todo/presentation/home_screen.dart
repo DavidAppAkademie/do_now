@@ -129,6 +129,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 return Text("Fehler: ${snapshot.error}");
               } else if (snapshot.hasData) {
                 List<Todo> myTodos = snapshot.data ?? [];
+                if (myTodos.isEmpty) {
+                  return Center(
+                    child: Text(
+                      "Keine Todos gefunden",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  );
+                }
                 return ListView.builder(
                   itemCount: myTodos.length,
                   itemBuilder: (context, index) {
