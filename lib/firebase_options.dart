@@ -51,7 +51,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyBzQKAxQwAwttWjn1Jy9C4Uv2hhhA7Gf_8',
-    appId: '1:784527243811:android:dd3a2320f9c8ad6e44cf96',
+    appId: '1:784527243811:android:b3afe25397a3adc044cf96',
     messagingSenderId: '784527243811',
     projectId: 'do-now-app',
     storageBucket: 'do-now-app.firebasestorage.app',
@@ -59,13 +59,12 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyD4Xo_-UWUxIheiQjSaxgwFFKG815pNniY',
-    appId: '1:784527243811:ios:2feedc285fff91f244cf96',
+    appId: '1:784527243811:ios:6e60d7dc4449301844cf96',
     messagingSenderId: '784527243811',
     projectId: 'do-now-app',
     storageBucket: 'do-now-app.firebasestorage.app',
     androidClientId: '784527243811-1mklf61bbv6u3p26ft48hsesasn4f8ae.apps.googleusercontent.com',
-    iosClientId: '784527243811-pl623mls0eefipv9557lomj8q21gkl3n.apps.googleusercontent.com',
-    iosBundleId: 'com.example.doNow',
+    iosBundleId: 'com.appakademie.donow',
   );
 
 }

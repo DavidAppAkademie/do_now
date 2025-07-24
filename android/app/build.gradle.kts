@@ -9,7 +9,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.do_now"
+    namespace = "com.appakademie.do_now"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "27.2.12479018"
 
@@ -24,7 +24,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.do_now"
+        applicationId = "com.appakademie.do_now"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

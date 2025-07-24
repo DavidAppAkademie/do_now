@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:784527243811:android:dd3a2320f9c8ad6e44cf96",
+        "mobilesdk_app_id": "1:784527243811:android:b3afe25397a3adc044cf96",
         "android_client_info": {
-          "package_name": "com.example.do_now"
+          "package_name": "com.appakademie.do_now"
         }
       },
       "oauth_client": [
