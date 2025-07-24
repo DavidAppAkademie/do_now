@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:do_now/firebase_options.dart';
 import 'package:do_now/src/app.dart';
 import 'package:do_now/src/data/auth_repository.dart';
@@ -21,12 +22,15 @@ void main() async {
   final AuthRepository auth = FirebaseAuthRepository();
 
   runApp(
-    MultiProvider(
-      providers: [
-        Provider(create: (_) => auth),
-        Provider(create: (_) => db),
-      ],
-      child: App(),
+    DevicePreview(
+      enabled: false,
+      builder: (context) => MultiProvider(
+        providers: [
+          Provider(create: (_) => auth),
+          Provider(create: (_) => db),
+        ],
+        child: App(),
+      ),
     ),
   );
 }
