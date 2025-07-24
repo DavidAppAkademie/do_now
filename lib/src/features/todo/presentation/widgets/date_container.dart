@@ -30,7 +30,7 @@ class DateContainer extends StatelessWidget {
                   width: 1.6,
                 )
               : null,
-          color: isSelected ? Palette.white.withOpacity(0.2) : null,
+          color: isSelected ? Palette.white.withAlpha(0.2 * 255 ~/ 1) : null,
         ),
         child: Center(
           child: Text(
