@@ -1,19 +1,20 @@
+import 'package:do_now/main.dart';
 import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/features/auth/presentation/password_recovery_screen.dart';
 import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   // Attribute
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   bool _isObscured = true;
   bool _isLoading = false;
   final _emailController = TextEditingController();
@@ -94,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepository>();
+    final auth = ref.watch(authProvider);
 
     return Scaffold(
       body: SafeArea(

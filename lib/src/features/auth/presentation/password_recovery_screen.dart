@@ -1,15 +1,18 @@
+import 'package:do_now/main.dart';
 import 'package:do_now/src/data/auth_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class PasswordRecoveryScreen extends StatefulWidget {
+class PasswordRecoveryScreen extends ConsumerStatefulWidget {
   const PasswordRecoveryScreen({super.key});
 
   @override
-  State<PasswordRecoveryScreen> createState() => _PasswordRecoveryScreenState();
+  ConsumerState<PasswordRecoveryScreen> createState() =>
+      _PasswordRecoveryScreenState();
 }
 
-class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
+class _PasswordRecoveryScreenState
+    extends ConsumerState<PasswordRecoveryScreen> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool _isLoading = false;
@@ -56,7 +59,7 @@ class _PasswordRecoveryScreenState extends State<PasswordRecoveryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepository>();
+    final auth = ref.watch(authProvider);
 
     return Scaffold(
       appBar: AppBar(

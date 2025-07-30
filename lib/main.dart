@@ -7,8 +7,21 @@ import 'package:do_now/src/data/firebase_auth_repository.dart';
 import 'package:do_now/src/data/firestore_repository.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:provider/provider.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+
+part 'main.g.dart';
+
+@Riverpod(keepAlive: true)
+DatabaseRepository db(Ref ref) {
+  return FirestoreRepository();
+}
+
+@Riverpod(keepAlive: true)
+AuthRepository auth(Ref ref) {
+  return FirebaseAuthRepository();
+}
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,18 +31,11 @@ void main() async {
 
   await initializeDateFormatting('de_DE');
 
-  final DatabaseRepository db = FirestoreRepository();
-  final AuthRepository auth = FirebaseAuthRepository();
-
   runApp(
-    DevicePreview(
-      enabled: false,
-      builder: (context) => MultiProvider(
-        providers: [
-          Provider(create: (_) => auth),
-          Provider(create: (_) => db),
-        ],
-        child: App(),
+    ProviderScope(
+      child: DevicePreview(
+        enabled: false,
+        builder: (context) => App(),
       ),
     ),
   );

@@ -1,21 +1,21 @@
-import 'package:do_now/src/data/database_repository.dart';
+import 'package:do_now/main.dart';
 import 'package:do_now/src/features/auth/domain/app_user.dart';
 import 'package:do_now/src/features/group/domain/group.dart';
 import 'package:do_now/src/features/group/presentation/group_choice_card.dart';
 import 'package:do_now/src/features/todo/presentation/home_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class GroupChoiceScreen extends StatefulWidget {
+class GroupChoiceScreen extends ConsumerStatefulWidget {
   final String userId;
   // Konstruktor
   const GroupChoiceScreen({super.key, required this.userId});
 
   @override
-  State<GroupChoiceScreen> createState() => _GroupChoiceScreenState();
+  ConsumerState<GroupChoiceScreen> createState() => _GroupChoiceScreenState();
 }
 
-class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
+class _GroupChoiceScreenState extends ConsumerState<GroupChoiceScreen> {
   // State
   Future<List<Group>>? _myGroup;
   bool _isLoading = false;
@@ -23,13 +23,13 @@ class _GroupChoiceScreenState extends State<GroupChoiceScreen> {
   @override
   void initState() {
     super.initState();
-    _myGroup = context.read<DatabaseRepository>().getGroups(widget.userId);
+    _myGroup = ref.read(dbProvider).getGroups(widget.userId);
   }
 
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    final db = context.watch<DatabaseRepository>();
+    final db = ref.watch(dbProvider);
 
     return Scaffold(
       appBar: AppBar(

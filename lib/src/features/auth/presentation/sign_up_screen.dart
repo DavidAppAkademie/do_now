@@ -1,21 +1,22 @@
+import 'package:do_now/main.dart';
 import 'package:do_now/src/data/auth_repository.dart';
 import 'package:do_now/src/data/database_repository.dart';
 import 'package:do_now/src/features/auth/domain/app_user.dart';
 import 'package:do_now/src/features/auth/presentation/login_screen.dart';
 import 'package:do_now/src/features/auth/presentation/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SignUpScreen extends StatefulWidget {
+class SignUpScreen extends ConsumerStatefulWidget {
   // Konstrukor
   const SignUpScreen({super.key});
 
   // Methoden
   @override
-  State<SignUpScreen> createState() => _SignUpScreenState();
+  ConsumerState<SignUpScreen> createState() => _SignUpScreenState();
 }
 
-class _SignUpScreenState extends State<SignUpScreen> {
+class _SignUpScreenState extends ConsumerState<SignUpScreen> {
   bool _isObscured = true;
   bool _isLoading = false;
   final _emailController = TextEditingController();
@@ -154,8 +155,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepository>();
-    final database = context.watch<DatabaseRepository>();
+    final auth = ref.watch(authProvider);
+    final database = ref.watch(dbProvider);
 
     return Scaffold(
       body: SafeArea(

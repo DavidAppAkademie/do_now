@@ -1,13 +1,13 @@
-import 'package:do_now/src/data/database_repository.dart';
+import 'package:do_now/main.dart';
 import 'package:do_now/src/features/todo/domain/todo.dart';
 import 'package:do_now/src/features/todo/presentation/add_todo_screen.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/date_container.dart';
 import 'package:do_now/src/features/todo/presentation/widgets/todo_card.dart';
 import 'package:do_now/src/theme/palette.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   // Attribute
 
   final String groupId;
@@ -17,10 +17,10 @@ class HomeScreen extends StatefulWidget {
   const HomeScreen(this.groupId, {super.key, required this.groupName});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   // State
   Future<List<Todo>>? _myTodos;
   int _dayOffset = 0; // Offset from today (0 = today, 1 = tomorrow, etc.)
@@ -29,7 +29,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _myTodos = context.read<DatabaseRepository>().getTodos(widget.groupId);
+    _myTodos = ref.read(dbProvider).getTodos(widget.groupId);
     _selectedDate = DateTime.now(); // Setze heute als Standard
   }
 
@@ -114,7 +114,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // Methode(n)
   @override
   Widget build(BuildContext context) {
-    final db = context.watch<DatabaseRepository>();
+    final db = ref.watch(dbProvider);
     //List<Todo> myTodos = widget.db.getTodos(widget.groupId);
 
     return Scaffold(

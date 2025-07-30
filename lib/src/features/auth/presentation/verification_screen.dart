@@ -1,18 +1,18 @@
 import 'dart:async';
 
-import 'package:do_now/src/data/auth_repository.dart';
+import 'package:do_now/main.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class VerificationScreen extends StatefulWidget {
+class VerificationScreen extends ConsumerStatefulWidget {
   const VerificationScreen({super.key});
 
   @override
-  State<VerificationScreen> createState() => _VerificationScreenState();
+  ConsumerState<VerificationScreen> createState() => _VerificationScreenState();
 }
 
-class _VerificationScreenState extends State<VerificationScreen> {
+class _VerificationScreenState extends ConsumerState<VerificationScreen> {
   late Timer _timer;
 
   @override
@@ -44,7 +44,7 @@ class _VerificationScreenState extends State<VerificationScreen> {
               ),
               IconButton(
                 onPressed: () async {
-                  final auth = context.read<AuthRepository>();
+                  final auth = ref.read(authProvider);
                   await auth.signOut();
                 },
                 icon: Icon(Icons.exit_to_app),

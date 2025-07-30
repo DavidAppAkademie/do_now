@@ -1,20 +1,20 @@
-import 'package:do_now/src/data/auth_repository.dart';
+import 'package:do_now/main.dart';
 import 'package:do_now/src/features/auth/presentation/sign_up_screen.dart';
 import 'package:do_now/src/features/auth/presentation/verification_screen.dart';
 import 'package:do_now/src/features/group/presentation/group_choice_screen.dart';
 import 'package:do_now/src/theme/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class App extends StatelessWidget {
+class App extends ConsumerWidget {
   // Konstruktor
   const App({super.key});
 
   // Methode(n)
   @override
-  Widget build(BuildContext context) {
-    final auth = context.watch<AuthRepository>();
+  Widget build(BuildContext context, WidgetRef ref) {
+    final auth = ref.watch(authProvider);
 
     return StreamBuilder(
       stream: auth.authStateChanges(),
